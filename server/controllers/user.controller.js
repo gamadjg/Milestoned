@@ -6,7 +6,7 @@ import User from "../models/user.model.js";
 // @route POST /api/users
 // @access Public
 export const createUser = asyncHandler(async (req, res) => {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -15,8 +15,8 @@ export const createUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         password,
         milestones: [],
@@ -24,15 +24,12 @@ export const createUser = asyncHandler(async (req, res) => {
 
     if (user) {
         const token = generateToken(user._id);
-
-       
-
         res.status(201).json({
             token,
             user: {
                 id: user._id,
-                firstname: user.firstname,
-                lastname: user.lastname,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 milestones: user.milestones,
             },
@@ -53,7 +50,6 @@ export const loginUser = asyncHandler(async (req, res) => {
     // If user exists and passwords match, generate JWT token a
     if (user && (await user.matchPassword(password))) {
         const token = generateToken(user._id);
-        
 
         // Send token and user data to client
         res.json({
@@ -100,7 +96,6 @@ export const updateUser = asyncHandler(async (req, res) => {
     // Generate a new token for the updated user
     const token = generateToken(updatedUser._id);
 
-   
     // Return updated user and new token
     res.json({
         token,
@@ -137,10 +132,9 @@ export const deleteUser = asyncHandler(async (req, res) => {
 export const logout = asyncHandler(async (req, res) => {
     // Delete the token from client-side storage (e.g., local storage or cookie)
     // This effectively logs out the user
-  
+
     res.json({ message: "Logout successful" });
-    
-  });
+});
 // @desc Get all Users
 // @route Get /users
 // @access Public

@@ -1,28 +1,28 @@
-import express from 'express';
+import express from "express";
 import {
-  getAllMilestones,
-  getOneMilestone,
-  createNewMilestone,
-  updateMilestone,
-  deleteMilestone,
-} from '../controllers/milestone.controller.js';
-import tagsWare from '../middleware/tagsWare.js';
+    getAllMilestones,
+    getOneMilestone,
+    createNewMilestone,
+    updateMilestone,
+    deleteMilestone,
+} from "../controllers/milestone.controller.js";
+import tagsWare from "../middleware/tagsWare.js";
 
 const router = express.Router();
 
 // Get all milestones
-router.get('/milestones', getAllMilestones);
+router.get("/milestones", getAllMilestones);
 
 // Get one milestone
-router.get('/milestones/:milestoneNum', getOneMilestone);
+router.get("/milestones/:milestoneNum", getOneMilestone);
 
 // Create new milestone
-router.post('/milestones',tagsWare, createNewMilestone);
+router.post("/milestones", tagsWare, createNewMilestone);
 
 // Update a milestone
-router.patch('/milestones/:milestoneNum',tagsWare, updateMilestone);
+router.patch("/milestones/:milestoneNum", tagsWare, updateMilestone);
 
 // Delete a milestone
-router.delete('/milestones/:milestoneNum', deleteMilestone);
+router.delete("/milestones/:milestoneNum", deleteMilestone);
 
 export default router;
