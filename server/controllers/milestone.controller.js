@@ -3,25 +3,30 @@ import User from "../models/user.model.js";
 import asyncHandler from "express-async-handler";
 import mongoose from "mongoose";
 
-//@desc Get all Milestones
-// @route Get /milestones
+// @desc Get all milestones
+// @route Get /
 // @access Private
 export const getAllMilestones = asyncHandler(async (req, res) => {
-    const { owner } = req.query;
-
-    let milestones;
-
-    if (owner) {
-        milestones = await Milestone.find({ owner }).lean();
-    } else {
-        milestones = await Milestone.find({ owner: { $exists: false } }).lean();
-    }
+    let milestones = await Milestone.find().lean();
 
     if (!milestones?.length) {
         return res.status(400).json({ message: "No milestones found" });
     }
 
-    const milestonesWithUser = await Promise.all(
+    res.json(milestones);
+});
+
+// @desc Get all public milestones
+// @route Get /public
+// @access Private
+export const getPublicMilestones = asyncHandler(async (req, res) => {
+    let milestones = await Milestone.find({ owner: { $eq: null } }).lean();
+
+    if (!milestones?.length) {
+        return res.status(400).json({ message: "No milestones found" });
+    }
+
+    const publicMilestones = await Promise.all(
         milestones.map(async (milestone) => {
             const user = await User.findById(milestone.user).lean().exec();
             const displayName = user?.username?.displayName || "Unknown";
@@ -29,7 +34,7 @@ export const getAllMilestones = asyncHandler(async (req, res) => {
         })
     );
 
-    res.json(milestonesWithUser);
+    res.json(publicMilestones);
 });
 
 //@desc Get one Milestone
@@ -51,44 +56,52 @@ export const getOneMilestone = asyncHandler(async (req, res) => {
 // @route POST /milestones
 // @access Public
 export const createNewMilestone = asyncHandler(async (req, res) => {
-    const { title, description, deadline, status, owner } = req.body;
-
-    if (
-        !title ||
-        !description ||
-        description.length < 10 ||
-        !deadline ||
-        !status
-    ) {
-        return res.status(400).json({
-            message:
-                "All milestone fields required: title, description (minimum 10 characters), deadline, and status",
-        });
-    }
+    const { title, description, started, deadline, status, owner } = req.body;
+    console.log(
+        " title: ",
+        title,
+        "\n",
+        "description: ",
+        description,
+        "\n",
+        "started: ",
+        started,
+        "\n",
+        "deadline: ",
+        deadline,
+        "\n",
+        "status: ",
+        status,
+        "\n",
+        "owner: ",
+        owner
+    );
+    // if (
+    //     !title ||
+    //     !started
+    //     !status
+    // ) {
+    //     return res.status(400).json({
+    //         message:
+    //             "All milestone fields required: title, description (minimum 10 characters), deadline, and status",
+    //     });
+    // }
 
     try {
-        let milestone;
+        let milestone = await Milestone.create({
+            title,
+            description,
+            started,
+            deadline,
+            status,
+            owner: owner ? owner : null,
+        });
+        // Append the created milestone to the user's milestones array
         if (owner) {
-            milestone = await Milestone.create({
-                title,
-                description,
-                deadline,
-                status,
-                owner,
-            });
-        } else {
-            milestone = await Milestone.create({
-                title,
-                description,
-                deadline,
-                status,
+            await User.findByIdAndUpdate(owner, {
+                $push: { milestones: milestone._id },
             });
         }
-
-        // Append the created milestone to the user's milestones array
-        await User.findByIdAndUpdate(owner, {
-            $push: { milestones: milestone._id },
-        });
 
         res.status(201).json({
             message: `New milestone ${milestone._id}: ${milestone.title} created`,
@@ -107,19 +120,20 @@ export const createNewMilestone = asyncHandler(async (req, res) => {
 // @access Private
 export const updateMilestone = asyncHandler(async (req, res) => {
     const id = req.params.milestoneNum;
-    const { title, description, deadline, status, owner, collaborators, tags } =
-        req.body;
+    const {
+        title,
+        description,
+        started,
+        deadline,
+        status,
+        owner,
+        // tags,
+    } = req.body;
 
-    if (
-        !title ||
-        !description ||
-        description.length < 10 ||
-        !deadline ||
-        !status
-    ) {
+    if (!title || !started || !status) {
         return res.status(400).json({
             message:
-                "All milestone fields required: title, description (minimum 10 characters), deadline, and status",
+                "All milestone fields required: title, start date, and status",
         });
     }
 
@@ -136,10 +150,11 @@ export const updateMilestone = asyncHandler(async (req, res) => {
 
     milestone.title = title;
     milestone.description = description;
+    milestone.started = started;
     milestone.deadline = deadline;
     milestone.status = status;
-    milestone.tags = tags;
-    milestone.collaborators = collaborators;
+    // milestone.tags = tags;
+    milestone.owner = owner;
     // if (status.visibility === "public") {
     //     milestone.owner = owner;
     // } else if (status.visibility === "private") {
@@ -151,7 +166,7 @@ export const updateMilestone = asyncHandler(async (req, res) => {
 
     const updatedMilestone = await milestone.save();
     res.status(201).json({
-        message: `${updatedMilestone.owner}'s Note: ${updatedMilestone.milestoneNum} - ${updatedMilestone.title} hase been updated`,
+        message: `Milestone has been updated.`,
     });
 });
 
