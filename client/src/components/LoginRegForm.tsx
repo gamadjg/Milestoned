@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+// import loginUser from "../lib/loginUser";
+// import registerUser from "../lib/registerUser";
 // import Link from "next/link";
 // import { useRouter } from "next/navigation";
 // import { loginUser, registerUser } from "@/app/api/users/handleUser";
@@ -22,28 +25,38 @@ export const LoginRegForm = ({ login, register }: props) => {
 
         if (login) {
             console.log("login initiated");
-            // try {
-            // const res = await loginUser({ email, password });
-            // if (res.length >= 1) {
-            //     console.error("Login error:", res);
-            //     setErrors(res);
-            // }
-            console.log("login successful");
-            navigate("/dashboard");
-            // } catch (error: any) {
-            // console.error("Login error:", error);
-            // setErrors(error);
-            // }
+            try {
+                const res = await axios.post(
+                    "http://localhost:8000/api/users/login",
+                    {
+                        email,
+                        password,
+                    }
+                );
+                console.log("login successful", res.data);
+                navigate("/dashboard");
+            } catch (error) {
+                console.error("Login error:", error);
+                // setErrors(error);
+            }
         } else {
             console.log("registration initiated");
-            // const res = await registerUser({
-            //     firstName,
-            //     lastName,
-            //     email,
-            //     password,
-            // });
-            // console.log(res);
-            navigate("/dashboard");
+            try {
+                const res = await axios.post(
+                    "http://localhost:8000/api/users/register",
+                    {
+                        firstName,
+                        lastName,
+                        email,
+                        password,
+                    }
+                );
+                console.log("registration successful", res.data);
+                navigate("/dashboard");
+            } catch (error) {
+                console.error("registration error:", error);
+                // setErrors(error);
+            }
         }
     };
 
@@ -109,7 +122,7 @@ export const LoginRegForm = ({ login, register }: props) => {
                         <p className="my-8 text-center text-sm text-navy-200 md:text-base">
                             Don't have an account?{" "}
                             <Link
-                                to={"/users/register"}
+                                to={"/register"}
                                 className="cursor-pointer font-semibold text-blue-700 hover:underline"
                             >
                                 Register here!
@@ -127,7 +140,7 @@ export const LoginRegForm = ({ login, register }: props) => {
                         <p className="my-8 text-center text-sm text-navy-200 md:text-base">
                             Already have an account?{" "}
                             <Link
-                                to={"/users/login"}
+                                to={"/login"}
                                 className="cursor-pointer font-semibold text-blue-700 hover:underline"
                             >
                                 Login here!
