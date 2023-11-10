@@ -73,6 +73,7 @@ export default function Landing() {
                     <img
                         src={arrow}
                         alt="Arrow pointing at button to use app as guest"
+                        className="absolute z-30 object-none right-[410px] top-[130px] w-[200px]"
                     />
                     {/* <Image
                         src={arrowImg}
@@ -82,7 +83,11 @@ export default function Landing() {
                         height={50}
                     /> */}
                     <div className="rounded-3xl bg-[#334155] w-full h-5/6 absolute bottom-0"></div>
-                    <img src={handPic} alt="Hand holding phone" />
+                    <img
+                        src={handPic}
+                        alt="Hand holding phone"
+                        className="absolute left-[0px] object-none object-left-top rounded-3xl h-full w-full"
+                    />
                     {/* <Image
                         src={handPic}
                         priority={true}

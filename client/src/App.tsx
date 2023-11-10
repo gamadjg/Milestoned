@@ -5,10 +5,11 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Dashboard from "./views/Dashboard";
 import Edit from "./views/Edit";
+import "./assets/index.css";
 
 export default function App() {
     return (
-        <body className="flex flex-col h-screen bg-gray-200">
+        <div className="flex flex-col h-screen bg-gray-200">
             <Header />
             <Routes>
                 <Route path="/" element={<Landing />} />
@@ -17,6 +18,6 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/edit" element={<Edit />} />
             </Routes>
-        </body>
+        </div>
     );
 }
