@@ -1,7 +1,7 @@
 import Milestone from "../models/milestone.model.js";
 import User from "../models/user.model.js";
 import asyncHandler from "express-async-handler";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 // @desc Get all milestones
 // @route Get /
@@ -10,7 +10,7 @@ export const getAllMilestones = asyncHandler(async (req, res) => {
     let milestones = await Milestone.find().lean();
 
     if (!milestones?.length) {
-        return res.status(400).json({ message: "No milestones found" });
+        res.status(400).json({ message: "No milestones found" });
     }
 
     res.json(milestones);
@@ -23,18 +23,10 @@ export const getPublicMilestones = asyncHandler(async (req, res) => {
     let milestones = await Milestone.find({ owner: { $eq: null } }).lean();
 
     if (!milestones?.length) {
-        return res.status(400).json({ message: "No milestones found" });
+        res.status(400).json({ message: "No milestones found" });
     }
 
-    const publicMilestones = await Promise.all(
-        milestones.map(async (milestone) => {
-            const user = await User.findById(milestone.user).lean().exec();
-            const displayName = user?.username?.displayName || "Unknown";
-            return { ...milestone, displayName };
-        })
-    );
-
-    res.json(publicMilestones);
+    res.json(milestones);
 });
 
 //@desc Get one Milestone
@@ -44,11 +36,10 @@ export const getOneMilestone = asyncHandler(async (req, res) => {
     const milestoneNum = req.params.milestoneNum;
     const milestone = await Milestone.findOne({ _id: milestoneNum }).lean();
 
-    if (milestone == null) {
-        return res.status(400).json({
-            message: `Milestone not found\t\t No.${milestone.milestoneNum} not found for ${user.displayName}`,
-        });
+    if (!milestone) {
+        res.status(400).json({ message: `Milestone not found` });
     }
+
     res.json(milestone);
 });
 
@@ -57,35 +48,6 @@ export const getOneMilestone = asyncHandler(async (req, res) => {
 // @access Public
 export const createNewMilestone = asyncHandler(async (req, res) => {
     const { title, description, started, deadline, status, owner } = req.body;
-    console.log(
-        " title: ",
-        title,
-        "\n",
-        "description: ",
-        description,
-        "\n",
-        "started: ",
-        started,
-        "\n",
-        "deadline: ",
-        deadline,
-        "\n",
-        "status: ",
-        status,
-        "\n",
-        "owner: ",
-        owner
-    );
-    // if (
-    //     !title ||
-    //     !started
-    //     !status
-    // ) {
-    //     return res.status(400).json({
-    //         message:
-    //             "All milestone fields required: title, description (minimum 10 characters), deadline, and status",
-    //     });
-    // }
 
     try {
         let milestone = await Milestone.create({
@@ -130,23 +92,10 @@ export const updateMilestone = asyncHandler(async (req, res) => {
         // tags,
     } = req.body;
 
-    if (!title || !started || !status) {
-        return res.status(400).json({
-            message:
-                "All milestone fields required: title, start date, and status",
-        });
-    }
-
     const milestone = await Milestone.findOne({ _id: id });
     if (!milestone) {
         return res.status(400).json({ message: `Milestone not found` });
     }
-    // const duplicate = await findOne({ title }).lean().exec();
-    // if (duplicate && duplicate?.owner.username.displayName) {
-    //     return res.status(409).json({
-    //         message: `${owner.username.displayName} has duplicate milestone titles`,
-    //     });
-    // }
 
     milestone.title = title;
     milestone.description = description;
@@ -155,16 +104,8 @@ export const updateMilestone = asyncHandler(async (req, res) => {
     milestone.status = status;
     // milestone.tags = tags;
     milestone.owner = owner;
-    // if (status.visibility === "public") {
-    //     milestone.owner = owner;
-    // } else if (status.visibility === "private") {
-    //     milestone.owner.displayName = "hidden";
-    // }
-    // if (collaborators) {
-    //     /* set roles & permissions */
-    // }
+    await milestone.save();
 
-    const updatedMilestone = await milestone.save();
     res.status(201).json({
         message: `Milestone has been updated.`,
     });
@@ -176,26 +117,15 @@ export const updateMilestone = asyncHandler(async (req, res) => {
 export const deleteMilestone = asyncHandler(async (req, res) => {
     const milestoneNum = req.params.milestoneNum;
 
-    // const { milestoneNum } = req.body; //TODO collaborator check (roles)
-
-    // if (!milestoneNum || typeof milestoneNum !== "number") {
-    //     return res
-    //         .status(400)
-    //         .json({ message: `Milestone Number is required` });
-    // }
-
-    const milestone = await Milestone.findOne({ _id: milestoneNum }).exec();
+    const milestone = await Milestone.findOne({ _id: milestoneNum });
 
     if (!milestone) {
-        return res.status(400).json({ message: "Milestone Not Found" });
+        res.status(400).json({ message: "Milestone Not Found" });
     }
-    console.log("milestone to delete found");
 
     await Milestone.deleteOne({ _id: milestoneNum });
 
-    console.log("milestone deleted");
-
-    return res.status(200).json({
+    res.status(204).json({
         message: `delete successful`,
     });
     // const reply = `Milestone No. ${result._id.toString()} - ${

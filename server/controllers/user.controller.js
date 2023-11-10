@@ -8,12 +8,12 @@ import User from "../models/user.model.js";
 export const createUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     const userExists = await User.findOne({ email });
-
+    // Check to see if user already exists
     if (userExists) {
         res.status(400);
         throw new Error("User already exists");
     }
-
+    //
     const user = await User.create({
         firstName,
         lastName,
