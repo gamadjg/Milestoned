@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
+// import axios from "axios";
 // import loginUser from "../lib/loginUser";
 // import registerUser from "../lib/registerUser";
 // import Link from "next/link";
@@ -10,10 +10,15 @@ import axios from "axios";
 type props = {
     login?: boolean;
     register?: boolean;
+    handleUser: (user: {
+        email: string;
+        password: string;
+        firstName?: string;
+        lastName?: string;
+    }) => void;
 };
 
-export const LoginRegForm = ({ login, register }: props) => {
-    const navigate = useNavigate();
+export const LoginRegForm = ({ login, register, handleUser }: props) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -24,39 +29,9 @@ export const LoginRegForm = ({ login, register }: props) => {
         e.preventDefault();
 
         if (login) {
-            console.log("login initiated");
-            try {
-                const res = await axios.post(
-                    "http://localhost:8000/api/users/login",
-                    {
-                        email,
-                        password,
-                    }
-                );
-                console.log("login successful", res.data);
-                navigate("/dashboard");
-            } catch (error) {
-                console.error("Login error:", error);
-                // setErrors(error);
-            }
+            handleUser({ email, password });
         } else {
-            console.log("registration initiated");
-            try {
-                const res = await axios.post(
-                    "http://localhost:8000/api/users/register",
-                    {
-                        firstName,
-                        lastName,
-                        email,
-                        password,
-                    }
-                );
-                console.log("registration successful", res.data);
-                navigate("/dashboard");
-            } catch (error) {
-                console.error("registration error:", error);
-                // setErrors(error);
-            }
+            handleUser({ email, password, firstName, lastName });
         }
     };
 
