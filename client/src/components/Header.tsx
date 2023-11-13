@@ -1,9 +1,8 @@
 // import { useSelector, useDispatch } from "react-redux";
-// import { logout } from "@/store/reducers/userSlice";
-// import { RootState } from "@/store/rootReducer";
-// import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/reducers/userSlice";
+// import { RootState } from "../store/store";
 import { Link, useNavigate } from "react-router-dom";
-// import Cookies from "js-cookie";
 // import axios, { AxiosRequestConfig } from "axios";
 
 const Header = () => {
@@ -11,23 +10,15 @@ const Header = () => {
     // const isAuthenticated = useSelector(
     //     (state: RootState) => state.user.isAuthenticated
     // );
-    // const dispatch = useDispatch();
-    // const router = useRouter();
-
-    // const router = useRouter();
+    const dispatch = useDispatch();
     // const sessionToken = props.authenticated
-    const sessionToken = "";
-    // ? sessionStorage.getItem("sessionToken")
-    // : null;
-    // let sessionToken = null;
-    // if (props.authenticated) {
-    //     sessionToken = sessionStorage.getItem("sessionToken");
-    // }
-    // const authPath = sessionToken ? "/dashboard" : "/";
+    const sessionToken = sessionStorage.getItem("session_token")
+        ? sessionStorage.getItem("session_token")
+        : null;
 
     const handleLogout = () => {
-        // Perform any necessary cleanup or redirection
         sessionStorage.clear();
+        dispatch(logout());
         navigate("/");
     };
 
