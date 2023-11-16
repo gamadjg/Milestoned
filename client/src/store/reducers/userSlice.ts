@@ -1,15 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Milestone = {
-    _id: string;
+    _id?: string;
     title: string;
-    description: string;
+    description?: string;
     started: string;
-    deadline: string;
+    deadline?: string;
     status: string;
-    owner: string;
+    owner?: string;
 };
-
 type User = {
     email: string;
     id: string;
@@ -53,11 +52,11 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-        // updateMilestones: (state, action: PayloadAction<Milestone[]>) => {
-        //     if (state.user) {
-        //         state.user.milestones = action.payload;
-        //     }
-        // },
+        updateMilestones: (state, action: PayloadAction<Milestone[]>) => {
+            if (state.user) {
+                state.user.milestones = action.payload;
+            }
+        },
         // deleteMilestones: (state, action: PayloadAction<string>) => {
         //     const id = action.payload;
         //     if (state.user) {
@@ -76,7 +75,7 @@ export const {
     loginSuccess,
     // loginFailure,
     logout,
-    // updateMilestones,
+    updateMilestones,
     // deleteMilestones,
 } = userSlice.actions;
 export default userSlice.reducer;

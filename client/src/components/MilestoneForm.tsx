@@ -1,55 +1,96 @@
-"use client";
 import React, { useState } from "react";
-import { createMilestone } from "../app/api/milestones/handleMilestones";
-import { useRouter } from "next/navigation";
+import axios from "axios";
+type Milestone = {
+    _id?: string;
+    title: string;
+    description?: string;
+    started: string;
+    deadline?: string;
+    status: string;
+    owner?: string;
+};
 
-const MilestoneForm = () => {
-    const router = useRouter();
-    const [title, setTitle] = useState("test");
-    const [description, setDescription] = useState("another test");
-    const [status, setStatus] = useState("Completed");
-    const [deadline, setDeadline] = useState("06/14/2023");
-    const [tags, setTags] = useState("");
-    const [errors, setErrors] = useState([]);
+type Props = {
+    milestone: Milestone;
+    handleMilestone: (milestone: Milestone) => void;
+    newMilestone: boolean;
+};
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const user = JSON.parse(sessionStorage.getItem("user")!);
-        try {
-            const newMilestone = (await createMilestone({
-                title,
-                description,
-                deadline,
-                status,
-                tags,
-                owner: user.id,
-            })) as Milestone;
-            let milestones = JSON.parse(sessionStorage.getItem("milestones")!);
-            milestones.push(newMilestone);
-            console.log(milestones);
-            sessionStorage.setItem("milestones", JSON.stringify(milestones));
-            router.refresh();
-        } catch (error: any) {
-            console.error("Milestone error:", error);
-            // setErrors(error);
+const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
+    const [title, setTitle] = useState(milestone.title);
+    const [description, setDescription] = useState(milestone.description);
+    const [started, setStarted] = useState(milestone.started);
+    const [status, setStatus] = useState(milestone.status);
+    const [deadline, setDeadline] = useState(milestone.deadline);
+    // const [tags, setTags] = useState();
+    // const [errors, setErrors] = useState([]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newMilestone) {
+            // handleMilestone({ title, description, started, status, deadline });
+            try {
+                await axios.post(
+                    "http://localhost:8000/api/milestones/create",
+                    { title, description, started, status, deadline }
+                );
+                handleMilestone({
+                    title,
+                    description,
+                    started,
+                    status,
+                    deadline,
+                });
+            } catch (error) {
+                console.log("Create error: ", error);
+            }
+        } else {
+            try {
+                const res = axios.patch(
+                    `http://localhost:8000/api/milestones/${milestone._id}`,
+                    {
+                        title,
+                        description,
+                        started,
+                        status,
+                        deadline,
+                        owner: milestone.owner,
+                    }
+                );
+                console.log(res);
+                handleMilestone({
+                    title,
+                    description,
+                    started,
+                    status,
+                    deadline,
+                });
+            } catch (error) {
+                console.log("Edit error: ", error);
+            }
         }
-        // if (user) {
-        //     // add new milestone to user within sessionStorage
-        //     user.milestones.push(milestone);
-        //     console.log(user);
-        //     sessionStorage.setItem("user", JSON.stringify(user));
-        // } else {
-        //     // add new milestone to user within sessionStorage
-        //     user.milestones.push(milestone);
-        //     console.log(user);
-        //     sessionStorage.setItem("user", JSON.stringify(user));
+        // const errorSetup: object<string, string> = {}
+        // if(!title){
+        //     errorSetup['title'] = 'Title is required'
         // }
-        // Reset form inputs
-        // setTitle("");
-        // setDescription("");
-        // setStatus("");
-        // setDeadline("");
-        // setTags("");
+        // if(!started){
+        //     errorSetup['started'] = 'Start date is required'
+        // }
+        // if(!status){
+        //     errorSetup['status'] = 'Status is required'
+        // }
+
+        // if (title && started && status) {
+        //     handleMilestone({
+        //         title,
+        //         description,
+        //         started,
+        //         status,
+        //         deadline,
+        //     });
+        // } else {
+        //     console.log("Cant create milestone");
+        // }
     };
 
     return (
@@ -90,17 +131,29 @@ const MilestoneForm = () => {
                     <option value="Not Started">Not Started</option>
                 </select>
             </div>
-            <div className="mb-4">
-                <input
-                    type="text"
-                    name="dateCompleted"
-                    placeholder="Date completed (mm/dd/yyyy)"
-                    value={deadline}
-                    onChange={(e) => setDeadline(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                />
+            <div>
+                <div className="mb-4">
+                    <input
+                        type="text"
+                        name="dateCompleted"
+                        placeholder="Date completed (mm/dd/yyyy)"
+                        value={started}
+                        onChange={(e) => setStarted(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
+                <div className="mb-4">
+                    <input
+                        type="text"
+                        name="dateCompleted"
+                        placeholder="Date completed (mm/dd/yyyy)"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <input
                     type="text"
                     name="tags"
@@ -109,9 +162,9 @@ const MilestoneForm = () => {
                     onChange={(e) => setTags(e.target.value)}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
-            </div>
+            </div> */}
             <div className="flex items-end justify-end mb-4 w-full">
-                <div>{errors}</div>
+                {/* <div>{errors}</div> */}
                 <button
                     type="submit"
                     className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4"

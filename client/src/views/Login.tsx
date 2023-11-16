@@ -28,7 +28,7 @@ export default function Login() {
             console.log("login successful", res.data);
             dispatch(loginSuccess(res.data.user));
             sessionStorage.setItem("session_token", res.data.token);
-
+            sessionStorage.setItem("user", JSON.stringify(res.data.user));
             navigate("/dashboard");
         } catch (error) {
             console.error("Login error:", error);

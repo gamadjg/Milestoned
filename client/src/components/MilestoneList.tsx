@@ -4,13 +4,13 @@
 import { Link } from "react-router-dom";
 
 type Milestone = {
-    _id: string;
+    _id?: string;
     title: string;
-    description: string;
+    description?: string;
     started: string;
-    deadline: string;
+    deadline?: string;
     status: string;
-    owner: string;
+    owner?: string;
 };
 
 type Props = {
@@ -87,7 +87,7 @@ const MilestoneList = ({ milestones }: Props) => {
                 <div className="mt-8 flex items-center justify-start">
                     <div className="rounded-full bg-blue-400 w-10 h-10"></div>
                     <div className="ml-4 text-gray-500">
-                        {new Date(milestone.deadline).toLocaleDateString(
+                        {new Date(milestone.started).toLocaleDateString(
                             undefined,
                             {
                                 month: "long",
