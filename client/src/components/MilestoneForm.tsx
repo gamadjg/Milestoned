@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { RootState } from "@/store/rootReducer";
+
 type Milestone = {
     _id?: string;
     title: string;
@@ -17,6 +20,7 @@ type Props = {
 };
 
 const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
+    const user = useSelector((state: RootState) => state.user?.user);
     const [title, setTitle] = useState(milestone.title);
     const [description, setDescription] = useState(milestone.description);
     const [started, setStarted] = useState(milestone.started);
@@ -38,8 +42,9 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                     title,
                     description,
                     started,
-                    status,
                     deadline,
+                    status,
+                    owner: user?.id,
                 });
             } catch (error) {
                 console.log("Create error: ", error);
@@ -52,8 +57,8 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                         title,
                         description,
                         started,
-                        status,
                         deadline,
+                        status,
                         owner: milestone.owner,
                     }
                 );

@@ -8,18 +8,19 @@ import Edit from "./views/Edit";
 import "./assets/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./store/rootReducer";
+import { loginSuccess } from "./store/reducers/userSlice";
 
 export default function App() {
     const dispatch = useDispatch();
     const sessionUser = sessionStorage.getItem("user")
         ? sessionStorage.getItem("user")
         : null;
-    let user = useSelector((state: RootState) => state.user?.user);
+    const user = useSelector((state: RootState) => state.user?.user);
     if (!user && sessionUser) {
-        console.log("user in session, not in redux");
-        user = JSON.parse(sessionUser);
-        console.log(user);
-        dispatch({ type: "user/setUser", payload: user });
+        // console.log("user in session, not in redux");
+        const loginUser = JSON.parse(sessionUser);
+        // console.log(loginUser);
+        dispatch(loginSuccess(loginUser));
     }
 
     return (

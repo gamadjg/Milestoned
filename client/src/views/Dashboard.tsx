@@ -18,25 +18,7 @@ type Milestone = {
 
 const Dashboard = () => {
     const dispatch = useDispatch();
-    // let milestones = sessionStorage.getItem("session_token") ? useSelector((state: RootState) => state.user?.user?.milestones) : []
     const user = useSelector((state: RootState) => state.user?.user);
-    // const sessionToken = sessionStorage.getItem("session_token")
-    //     ? sessionStorage.getItem("session_token")
-    //     : null;
-
-    // if (!user && sessionToken) {
-    // const JWT_SECRET = "1234";
-    // const jwt = jsonwebtoken;
-    //     //     console.log("sessionToken: ", sessionToken);
-    //     //     // const sessionToken = .getItem("session_token");
-    //     //     const token = sessionToken.split(" ")[1];
-    //     const decoded = jwt.verify(sessionToken, JWT_SECRET);
-    //     console.log("decoded: ", decoded);
-    //     //     // console.log(sessionToken);
-    //     //     console.log(decoded);
-    // }
-
-    // const milestones = user?.milestones || [];
     const [milestones, setMilestones] = useState<Milestone[]>(
         user?.milestones || []
     );
@@ -53,24 +35,6 @@ const Dashboard = () => {
         );
         dispatch(updateMilestones(updatedMilestones));
         setMilestones(updatedMilestones);
-
-        // const newMilestone = (await createMilestone({
-        //     title,
-        //     description,
-        //     deadline,
-        //     status,
-        //     tags,
-        //     owner: user.id,
-        // })) as Milestone;
-
-        //     let milestones = JSON.parse(sessionStorage.getItem("milestones")!);
-        //     milestones.push(newMilestone);
-        //     console.log(milestones);
-        //     sessionStorage.setItem("milestones", JSON.stringify(milestones));
-        //     router.refresh();
-        // } catch (error: any) {
-        //     console.error("Milestone error:", error);
-        //     // setErrors(error);
     };
 
     const milestone: Milestone = {
@@ -78,10 +42,7 @@ const Dashboard = () => {
         started: "",
         status: "",
     };
-    // let milestoneList: any = [];
-    // const [milestones, setMilestones] = useState<Milestone[]>(
-    //     user?.milestones || []
-    // );
+
     return (
         <main className="w-full h-full overflow-y-scroll">
             <div className="flex flex-col md:flex-row w-full h-full">
