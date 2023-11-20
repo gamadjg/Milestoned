@@ -58,17 +58,6 @@ const userSlice = createSlice({
                 state.user.milestones = action.payload;
             }
         },
-        // deleteMilestones: (state, action: PayloadAction<string>) => {
-        //     const id = action.payload;
-        //     if (state.user) {
-        //         state.user.milestones = state.user.milestones.filter(
-        //             (item: Milestone) => {
-        //                 return item._id != id;
-        //             }
-        //         );
-        //         // state.user.milestones = action.payload;
-        //     }
-        // },
     },
 });
 
@@ -77,6 +66,5 @@ export const {
     // loginFailure,
     logout,
     updateMilestones,
-    // deleteMilestones,
 } = userSlice.actions;
 export default userSlice.reducer;

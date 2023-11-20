@@ -17,9 +17,15 @@ type Props = {
     milestone: Milestone;
     handleMilestone: (milestone: Milestone) => void;
     newMilestone: boolean;
+    handleDelete?: () => void;
 };
 
-const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
+const MilestoneForm = ({
+    milestone,
+    handleMilestone,
+    newMilestone,
+    handleDelete,
+}: Props) => {
     const user = useSelector((state: RootState) => state.user?.user);
     const [title, setTitle] = useState(milestone.title);
     const [description, setDescription] = useState(milestone.description);
@@ -28,6 +34,13 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     const [deadline, setDeadline] = useState(milestone.deadline);
     // const [tags, setTags] = useState();
     // const [errors, setErrors] = useState([]);
+
+    // const deleteHandler = (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     if (handleDelete) {
+    //         handleDelete();
+    //     }
+    // };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -68,7 +81,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                         started,
                         deadline,
                         status,
-                        // owner: milestone.owner,
+                        owner: milestone.owner,
                     }
                 );
                 console.log("Edited milestone: ", res);
@@ -78,6 +91,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                     started,
                     deadline,
                     status,
+                    owner: milestone.owner,
                 });
             } catch (error) {
                 console.log("Edit error: ", error);
@@ -180,6 +194,25 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
             </div> */}
             <div className="flex items-end justify-end mb-4 w-full">
                 {/* <div>{errors}</div> */}
+                {newMilestone ? (
+                    <></>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={handleDelete}
+                        className="bg-slate-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                    >
+                        Delete
+                        {/* <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/trash--v1.png" alt="trash--v1"/> */}
+                        <img
+                            className="text-white invert"
+                            width="24"
+                            height="24"
+                            src="https://img.icons8.com/material-outlined/24/trash--v1.png"
+                            alt="trash--v1"
+                        />
+                    </button>
+                )}
                 <button
                     type="submit"
                     className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4"
