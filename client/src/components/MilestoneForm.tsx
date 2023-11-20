@@ -34,24 +34,33 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
         if (newMilestone) {
             // handleMilestone({ title, description, started, status, deadline });
             try {
-                await axios.post(
+                const res = await axios.post(
                     "http://localhost:8000/api/milestones/create",
-                    { title, description, started, status, deadline }
+                    {
+                        title,
+                        description,
+                        started,
+                        status,
+                        deadline,
+                        owner: user?.id,
+                    }
                 );
-                handleMilestone({
-                    title,
-                    description,
-                    started,
-                    deadline,
-                    status,
-                    owner: user?.id,
-                });
+                console.log("New milestone: ", res);
+                // handleMilestone({
+                //     title,
+                //     description,
+                //     started,
+                //     deadline,
+                //     status,
+                //     owner: user?.id,
+                // });
+                handleMilestone(res.data.milestone);
             } catch (error) {
                 console.log("Create error: ", error);
             }
         } else {
             try {
-                const res = axios.patch(
+                const res = await axios.patch(
                     `http://localhost:8000/api/milestones/${milestone._id}`,
                     {
                         title,
@@ -59,16 +68,16 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                         started,
                         deadline,
                         status,
-                        owner: milestone.owner,
+                        // owner: milestone.owner,
                     }
                 );
-                console.log(res);
+                console.log("Edited milestone: ", res);
                 handleMilestone({
                     title,
                     description,
                     started,
-                    status,
                     deadline,
+                    status,
                 });
             } catch (error) {
                 console.log("Edit error: ", error);
@@ -100,8 +109,9 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="font-bold text-xl mb-4">Add New Milestone</div>
-
+            <div className="font-bold text-xl mb-4">
+                {newMilestone ? "Add New Milestone" : "Edit Milestone"}
+            </div>
             <div className="mb-4">
                 <input
                     type="text"
@@ -174,7 +184,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                     type="submit"
                     className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4"
                 >
-                    Add
+                    {newMilestone ? "Add" : "Edit"}
                 </button>
             </div>
         </form>

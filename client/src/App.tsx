@@ -31,7 +31,7 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/edit" element={<Edit />} />
+                <Route path="/edit/:_id" element={<Edit />} />
             </Routes>
         </div>
     );
