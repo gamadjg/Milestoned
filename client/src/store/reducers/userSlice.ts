@@ -35,7 +35,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess: (state, action: PayloadAction<User>) => {
-            console.log(state, action);
+            // console.log(state, action);
             state.user = action.payload;
             state.isAuthenticated = true;
             state.loading = false;

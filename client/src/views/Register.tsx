@@ -1,6 +1,8 @@
 import { LoginRegForm } from "../components/LoginRegForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/reducers/userSlice";
 
 type User = {
     email: string;
@@ -10,8 +12,8 @@ type User = {
 };
 
 export default function Register() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const handleRegister = async ({
         email,
         password,
@@ -30,6 +32,9 @@ export default function Register() {
                 }
             );
             console.log("registration successful", res.data);
+            dispatch(loginSuccess(res.data.user));
+            sessionStorage.setItem("session_token", res.data.token);
+            sessionStorage.setItem("user", JSON.stringify(res.data.user));
             navigate("/dashboard");
         } catch (error) {
             console.error("registration error:", error);
