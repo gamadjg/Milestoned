@@ -6,7 +6,12 @@ export default {
         "./index.html",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                libreBaskerville: ["Libre Baskerville", "serif"],
+                kalam: ["Kalam", "cursive"],
+            },
+        },
     },
     plugins: [],
 };
