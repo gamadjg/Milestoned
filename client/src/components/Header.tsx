@@ -7,11 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
     const navigate = useNavigate();
-    // const isAuthenticated = useSelector(
-    //     (state: RootState) => state.user.isAuthenticated
-    // );
     const dispatch = useDispatch();
-    // const sessionToken = props.authenticated
     const sessionToken = sessionStorage.getItem("session_token")
         ? sessionStorage.getItem("session_token")
         : null;
@@ -23,8 +19,8 @@ const Header = () => {
     };
 
     return (
-        <header className="flex z-10 justify-between items-center shadow-md w-full bg-white px-10 sticky top-0 bottom-0">
-            <Link to={"/"} className="font-bold text-2xl p-4">
+        <header className="flex z-10 justify-between items-center shadow-md w-full bg-white md:px-10 px-2 sticky top-0 bottom-0">
+            <Link to={"/"} className="font-medium text-2xl p-4">
                 Milestoned
             </Link>
             <div className="text-blue-400 p-4">
