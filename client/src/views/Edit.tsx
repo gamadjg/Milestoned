@@ -86,7 +86,7 @@ const Edit = () => {
     return (
         <div className="w-full h-full flex items-center justify-center m-auto">
             {/* <div className="w-full md:w-1/2 h-full flex flex-col items-center"> */}
-            <div className="bg-white rounded-lg lg:max-w-[900px] sm:w-2/3 md:mt-16">
+            <div className="bg-white rounded-lg lg:max-w-[900px] sm:w-2/3">
                 <div className="mx-2 md:mx-5">
                     <div className="p-2 md:p-4">
                         <MilestoneForm

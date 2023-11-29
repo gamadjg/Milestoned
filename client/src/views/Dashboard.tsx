@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { updateMilestones } from "../store/reducers/userSlice";
+// import Resizer from "react-image-file-resizer";
 // import jsonwebtoken from "jsonwebtoken";
 type Milestone = {
     _id?: string;
