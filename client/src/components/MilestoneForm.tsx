@@ -192,7 +192,7 @@ const MilestoneForm = ({
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
             </div> */}
-            <div className="flex items-end justify-end mb-4 w-full">
+            <div className="flex items-end justify-between mb-4 w-full">
                 {/* <div>{errors}</div> */}
                 {newMilestone ? (
                     <></>
@@ -200,9 +200,9 @@ const MilestoneForm = ({
                     <button
                         type="button"
                         onClick={handleDelete}
-                        className="bg-slate-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                        className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
                     >
-                        Delete
+                        {/* Delete */}
                         {/* <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/trash--v1.png" alt="trash--v1"/> */}
                         <img
                             className="text-white invert"
@@ -215,7 +215,7 @@ const MilestoneForm = ({
                 )}
                 <button
                     type="submit"
-                    className="bg-blue-500 rounded-lg text-white px-8 py-2 mr-4"
+                    className="bg-blue-500 rounded-lg text-white px-8 py-2"
                 >
                     {newMilestone ? "Add" : "Edit"}
                 </button>

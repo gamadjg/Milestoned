@@ -48,7 +48,7 @@ const Dashboard = () => {
         <main className="w-full h-full overflow-y-scroll">
             <div className="flex flex-col md:flex-row w-full h-full">
                 <div className="w-full md:w-1/2 h-full flex flex-col items-center">
-                    <div className="bg-white rounded-lg w-full md:w-2/3 mt-8">
+                    <div className="bg-white rounded-lg w-11/12 md:w-2/3 mt-8">
                         <div className="mx-2 md:mx-5">
                             <div className="p-2 md:p-4">
                                 <MilestoneForm
