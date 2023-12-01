@@ -7,15 +7,6 @@ import { RootState } from "../store/rootReducer";
 import { updateMilestones } from "../store/reducers/userSlice";
 // import Resizer from "react-image-file-resizer";
 // import jsonwebtoken from "jsonwebtoken";
-type Milestone = {
-    _id?: string;
-    title: string;
-    description?: string;
-    started: string;
-    deadline?: string;
-    status: string;
-    owner?: string;
-};
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -40,8 +31,8 @@ const Dashboard = () => {
 
     const milestone: Milestone = {
         title: "",
-        started: "",
         status: "",
+        deadline: "",
     };
 
     return (

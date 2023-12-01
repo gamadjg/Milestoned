@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import axios from "axios";
-// import loginUser from "../lib/loginUser";
-// import registerUser from "../lib/registerUser";
-// import Link from "next/link";
-// import { useRouter } from "next/navigation";
-// import { loginUser, registerUser } from "@/app/api/users/handleUser";
 
 type props = {
     login?: boolean;
@@ -127,5 +121,3 @@ export const LoginRegForm = ({ login, register, handleUser }: props) => {
         </form>
     );
 };
-
-// export default UserForm;

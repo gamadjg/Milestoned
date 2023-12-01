@@ -1,22 +1,10 @@
-// import { Libre_Baskerville, Kalam } from "next/font/google";
 import arrow from "../assets/arrow.png";
 import phoneHand from "../assets/phone-hand.png";
 import { Link } from "react-router-dom";
 
-// const libreBaskerville = Libre_Baskerville({
-//     weight: "700",
-//     subsets: ["latin"],
-// });
-
-// const kalam = Kalam({
-//     weight: "700",
-//     subsets: ["latin"],
-// });
-
 export default function Landing() {
     return (
         <main className="w-full h-full grid md:grid-cols-2 items-center justify-center">
-            {/* // <main className="w-screen h-screen grid grid-cols-2 items-center justify-center gap-20"> */}
             <div className="m-10 flex flex-col items-center justify-center text-center">
                 <div
                     className={
@@ -26,7 +14,6 @@ export default function Landing() {
                     Welcome to
                     <p className="text-blue-600">Milestoned</p>
                 </div>
-                {/* <div className="md:w-full w-[300px]"> */}
                 <p className="max-w-[400px]  md:min-w-[400px] text-base mb-10">
                     Whether you want to remember a major career breakthrough, or
                     simply mark a personal milestone, we made it easy to stay
@@ -43,10 +30,7 @@ export default function Landing() {
                         Register here!
                     </Link>
                 </p>
-                {/* </div> */}
             </div>
-            {/* <div className="max-w-[650px] h-full max-h-[1000px] flex items-center justify-start p-5 pr-10 relative bottom-10"> */}
-            {/* <div className="rounded-3xl border-0 border-black relative w-full min-w-[600px] h-5/6"> */}
             <div className="flex p-5 relative items-center md:m-auto mt-20 mx-auto bg-gray-200 w-full">
                 <p
                     className={
@@ -74,7 +58,6 @@ export default function Landing() {
                     className="rounded-3xl w-[339px] h-[434px] md:h-[750px] md:min-w-[610px] bg-gray-200"
                 />
             </div>
-            {/* </div> */}
         </main>
     );
 }

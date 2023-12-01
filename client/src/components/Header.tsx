@@ -1,9 +1,6 @@
-// import { useSelector, useDispatch } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/reducers/userSlice";
-// import { RootState } from "../store/store";
 import { Link, useNavigate } from "react-router-dom";
-// import axios, { AxiosRequestConfig } from "axios";
 
 const Header = () => {
     const navigate = useNavigate();

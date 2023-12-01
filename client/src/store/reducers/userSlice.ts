@@ -1,14 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Milestone = {
-    _id?: string;
-    title: string;
-    description?: string;
-    started: string;
-    deadline?: string;
-    status: string;
-    owner?: string;
-};
 type User = {
     email: string;
     id: string;
@@ -27,7 +18,6 @@ const initialState: UserState = {
     isAuthenticated: false,
     loading: false,
     error: null,
-    // milestones: [],
 };
 
 const userSlice = createSlice({
@@ -35,18 +25,11 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess: (state, action: PayloadAction<User>) => {
-            // console.log(state, action);
             state.user = action.payload;
             state.isAuthenticated = true;
             state.loading = false;
             state.error = null;
         },
-        // loginFailure: (state, action: PayloadAction<string>) => {
-        //     state.user = null;
-        //     state.isAuthenticated = false;
-        //     state.loading = false;
-        //     state.error = action.payload;
-        // },
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
@@ -61,10 +44,5 @@ const userSlice = createSlice({
     },
 });
 
-export const {
-    loginSuccess,
-    // loginFailure,
-    logout,
-    updateMilestones,
-} = userSlice.actions;
+export const { loginSuccess, logout, updateMilestones } = userSlice.actions;
 export default userSlice.reducer;

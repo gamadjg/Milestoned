@@ -3,16 +3,6 @@ import axios from "axios";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@/store/rootReducer";
 
-type Milestone = {
-    _id?: string;
-    title: string;
-    description?: string;
-    started: string;
-    deadline?: string;
-    status: string;
-    owner?: string;
-};
-
 type Props = {
     milestone: Milestone;
     handleMilestone: (milestone: Milestone) => void;
@@ -29,44 +19,26 @@ const MilestoneForm = ({
     const user = useSelector((state: RootState) => state.user?.user);
     const [title, setTitle] = useState(milestone.title);
     const [description, setDescription] = useState(milestone.description);
-    const [started, setStarted] = useState(milestone.started);
     const [status, setStatus] = useState(milestone.status);
     const [deadline, setDeadline] = useState(milestone.deadline);
     // const [tags, setTags] = useState();
     // const [errors, setErrors] = useState([]);
 
-    // const deleteHandler = (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     if (handleDelete) {
-    //         handleDelete();
-    //     }
-    // };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (newMilestone) {
-            // handleMilestone({ title, description, started, status, deadline });
             try {
                 const res = await axios.post(
                     "http://localhost:8000/api/milestones/create",
                     {
                         title,
                         description,
-                        started,
-                        status,
                         deadline,
+                        status,
                         owner: user?.id,
                     }
                 );
                 console.log("New milestone: ", res);
-                // handleMilestone({
-                //     title,
-                //     description,
-                //     started,
-                //     deadline,
-                //     status,
-                //     owner: user?.id,
-                // });
                 handleMilestone(res.data.milestone);
             } catch (error) {
                 console.log("Create error: ", error);
@@ -78,7 +50,6 @@ const MilestoneForm = ({
                     {
                         title,
                         description,
-                        started,
                         deadline,
                         status,
                         owner: milestone.owner,
@@ -88,7 +59,6 @@ const MilestoneForm = ({
                 handleMilestone({
                     title,
                     description,
-                    started,
                     deadline,
                     status,
                     owner: milestone.owner,
@@ -101,7 +71,7 @@ const MilestoneForm = ({
         // if(!title){
         //     errorSetup['title'] = 'Title is required'
         // }
-        // if(!started){
+        // if(!deadline){
         //     errorSetup['started'] = 'Start date is required'
         // }
         // if(!status){
@@ -160,27 +130,15 @@ const MilestoneForm = ({
                     <option value="Not Started">Not Started</option>
                 </select>
             </div>
-            <div>
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        name="dateCompleted"
-                        placeholder="Date completed (mm/dd/yyyy)"
-                        value={started}
-                        onChange={(e) => setStarted(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        name="dateCompleted"
-                        placeholder="Date completed (mm/dd/yyyy)"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div>
+            <div className="mb-4">
+                <input
+                    type="text"
+                    name="dateCompleted"
+                    placeholder="Date completed (mm/dd/yyyy)"
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                />
             </div>
             {/* <div className="mb-4">
                 <input
@@ -193,7 +151,6 @@ const MilestoneForm = ({
                 />
             </div> */}
             <div className="flex items-end justify-between mb-4 w-full">
-                {/* <div>{errors}</div> */}
                 {newMilestone ? (
                     <></>
                 ) : (
@@ -202,8 +159,6 @@ const MilestoneForm = ({
                         onClick={handleDelete}
                         className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
                     >
-                        {/* Delete */}
-                        {/* <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/trash--v1.png" alt="trash--v1"/> */}
                         <img
                             className="text-white invert"
                             width="24"
