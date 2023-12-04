@@ -53,7 +53,6 @@ export const createNewMilestone = asyncHandler(async (req, res) => {
         let milestone = await Milestone.create({
             title,
             description,
-            started,
             deadline,
             status,
             owner: owner ? owner : null,
