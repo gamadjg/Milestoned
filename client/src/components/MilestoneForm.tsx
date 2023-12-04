@@ -4,7 +4,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@/store/rootReducer";
 
 type Props = {
-    milestone: Milestone;
+    milestone?: Milestone;
     handleMilestone: (milestone: Milestone) => void;
     newMilestone: boolean;
     handleDelete?: () => void;
@@ -17,10 +17,26 @@ const MilestoneForm = ({
     handleDelete,
 }: Props) => {
     const user = useSelector((state: RootState) => state.user?.user);
-    const [title, setTitle] = useState(milestone.title);
-    const [description, setDescription] = useState(milestone.description);
-    const [status, setStatus] = useState(milestone.status);
-    const [deadline, setDeadline] = useState(milestone.deadline);
+    const [title, setTitle] = useState(milestone?.title || "");
+    const [description, setDescription] = useState(
+        milestone?.description || ""
+    );
+    const [status, setStatus] = useState(milestone?.status || "");
+    const [deadline, setDeadline] = useState(
+        milestone
+            ? new Date(milestone.deadline).toLocaleDateString(undefined, {
+                  month: "numeric",
+                  day: "numeric",
+                  year: "numeric",
+              })
+            : new Date().toLocaleDateString(undefined, {
+                  month: "numeric",
+                  day: "numeric",
+                  year: "numeric",
+              })
+    );
+
+    // const [started, setStarted] = useState(
     // const [tags, setTags] = useState();
     // const [errors, setErrors] = useState([]);
 
@@ -46,13 +62,13 @@ const MilestoneForm = ({
         } else {
             try {
                 const res = await axios.patch(
-                    `http://localhost:8000/api/milestones/${milestone._id}`,
+                    `http://localhost:8000/api/milestones/${milestone!._id}`,
                     {
                         title,
                         description,
                         deadline,
                         status,
-                        owner: milestone.owner,
+                        owner: milestone!.owner,
                     }
                 );
                 console.log("Edited milestone: ", res);
@@ -61,7 +77,7 @@ const MilestoneForm = ({
                     description,
                     deadline,
                     status,
-                    owner: milestone.owner,
+                    owner: milestone!.owner,
                 });
             } catch (error) {
                 console.log("Edit error: ", error);

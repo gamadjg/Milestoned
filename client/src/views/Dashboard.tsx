@@ -29,11 +29,11 @@ const Dashboard = () => {
         setMilestones(updatedMilestones);
     };
 
-    const milestone: Milestone = {
-        title: "",
-        status: "",
-        deadline: "",
-    };
+    // const milestone: Milestone = {
+    //     title: "",
+    //     status: "",
+    //     deadline: "",
+    // };
 
     return (
         <main className="w-full h-full overflow-y-scroll">
@@ -43,7 +43,6 @@ const Dashboard = () => {
                         <div className="mx-2 md:mx-5">
                             <div className="p-2 md:p-4">
                                 <MilestoneForm
-                                    milestone={milestone}
                                     handleMilestone={handleMilestone}
                                     newMilestone={true}
                                 />

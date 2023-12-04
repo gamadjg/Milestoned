@@ -5,7 +5,15 @@ type Props = {
 };
 
 const MilestoneList = ({ milestones }: Props) => {
-    return milestones.map((milestone: Milestone) => {
+    console.log("milestones", milestones);
+    let sortedMilestones: Milestone[] = [...milestones];
+    sortedMilestones = sortedMilestones.sort((a, b) => {
+        return new Date(a.deadline).getDate() - new Date(b.deadline).getDate();
+    });
+    sortedMilestones.reverse();
+    console.log(sortedMilestones);
+
+    return sortedMilestones.map((milestone: Milestone) => {
         return (
             <div key={milestone._id}>
                 <div className="mt-8 flex items-center justify-start">
