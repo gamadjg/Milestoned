@@ -35,6 +35,7 @@ const MilestoneForm = ({
                   year: "numeric",
               })
     );
+    const [tags, setTags] = useState(milestone?.tags || []);
     const maxDescriptionLength = 500;
     const descriptionLength = useMemo(() => {
         return description.length;
@@ -50,11 +51,15 @@ const MilestoneForm = ({
         }
     };
     // const [started, setStarted] = useState(
-    // const [tags, setTags] = useState();
     // const [errors, setErrors] = useState([]);
+
+    const handleTags = (e: React.FormEvent<HTMLInputElement>) => {
+        setTags(e.currentTarget.value.split(",").map((tag) => tag.trim()));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // if the form is used to create a new milestone, send a post request
         if (newMilestone) {
             try {
                 const res = await axios.post(
@@ -65,14 +70,21 @@ const MilestoneForm = ({
                         deadline,
                         status,
                         owner: user?.id,
+                        tags: tags,
                     }
                 );
                 console.log("New milestone: ", res);
                 handleMilestone(res.data.milestone);
+                setTitle("");
+                setDescription("");
+                setStatus("");
+                setDeadline("");
+                setTags([]);
             } catch (error) {
                 console.log("Create error: ", error);
             }
         } else {
+            // else the form is used to edit an existing milestone, send a patch request, then update the milestone in the redux store and session storage
             try {
                 const res = await axios.patch(
                     `http://localhost:8000/api/milestones/${milestone!._id}`,
@@ -82,6 +94,7 @@ const MilestoneForm = ({
                         deadline,
                         status,
                         owner: milestone!.owner,
+                        tags,
                     }
                 );
                 console.log("Edited milestone: ", res);
@@ -91,6 +104,7 @@ const MilestoneForm = ({
                     deadline,
                     status,
                     owner: milestone!.owner,
+                    tags,
                 });
             } catch (error) {
                 console.log("Edit error: ", error);
@@ -178,16 +192,16 @@ const MilestoneForm = ({
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>
-            {/* <div className="mb-4">
+            <div className="mb-4">
                 <input
                     type="text"
                     name="tags"
                     placeholder="Tags (separated by commas)"
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
+                    value={tags.map((tag) => tag.trim()).join(", ")}
+                    onChange={handleTags}
                     className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
-            </div> */}
+            </div>
             <div
                 className={
                     newMilestone
