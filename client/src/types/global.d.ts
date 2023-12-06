@@ -8,5 +8,6 @@ declare global {
         deadline: string;
         status: string;
         owner?: string;
+        tags?: string[];
     };
 }

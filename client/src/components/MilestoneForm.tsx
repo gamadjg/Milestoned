@@ -120,6 +120,10 @@ const MilestoneForm = ({
         // }
     };
 
+    const backspace = () => {
+        window.history.back();
+    };
+
     return (
         <form onSubmit={handleSubmit}>
             <div className="font-semibold text-xl mb-4">
@@ -192,32 +196,95 @@ const MilestoneForm = ({
                 }
             >
                 {newMilestone ? (
-                    <></>
-                ) : (
                     <button
-                        type="button"
-                        onClick={handleDelete}
-                        className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                        type="submit"
+                        className="bg-blue-500 rounded-lg text-white px-8 py-1 flex items-center gap-2"
                     >
-                        <img
-                            className="text-white invert"
-                            width="24"
-                            height="24"
-                            src="https://img.icons8.com/material-outlined/24/trash--v1.png"
-                            alt="trash--v1"
-                        />
+                        <span>Add</span>
+                        <span className="text-xl">+</span>
                     </button>
+                ) : (
+                    <>
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+                        >
+                            <span>Delete</span>
+                            <img
+                                className="text-white invert"
+                                width="24"
+                                height="24"
+                                src="https://img.icons8.com/material-outlined/24/trash--v1.png"
+                                alt="trash--v1"
+                            />
+                        </button>
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                className="bg-gray-500 rounded-lg text-white px-8 py-2 mr-4"
+                                onClick={backspace}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
+                            >
+                                <span>Edit</span>
+                                <span className="text-xl">&#10003;</span>
+                            </button>
+                        </div>
+                    </>
                 )}
-                <button
-                    type="submit"
-                    className="bg-blue-500 rounded-lg text-white px-8 py-2"
-                >
-                    {newMilestone ? "Add +" : "Edit"}
-                    <i className="gg-check"></i>
-                </button>
             </div>
         </form>
     );
 };
 
 export default MilestoneForm;
+
+// {newMilestone ? (
+//     <></>
+// ) : (
+//     <button
+//         type="button"
+//         onClick={handleDelete}
+//         className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
+//     >
+//         <span>Delete</span>
+//         <img
+//             className="text-white invert"
+//             width="24"
+//             height="24"
+//             src="https://img.icons8.com/material-outlined/24/trash--v1.png"
+//             alt="trash--v1"
+//         />
+//     </button>
+// )}
+// {newMilestone ? (
+//     <button
+//         type="submit"
+//         className="bg-blue-500 rounded-lg text-white px-8 py-1 flex items-center gap-2"
+//     >
+//         <span>Add</span>
+//         <span className="text-xl">+</span>
+//     </button>
+// ) : (
+//     <div className="flex justify-end">
+//         <button
+//             type="button"
+//             className="bg-gray-500 rounded-lg text-white px-8 py-2 mr-4"
+//             onClick={backspace}
+//         >
+//             Cancel
+//         </button>
+//         <button
+//             type="submit"
+//             className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
+//         >
+//             <span>Edit</span>
+//             <span className="text-xl">&#10003;</span>
+//         </button>
+//     </div>
+// )}

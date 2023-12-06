@@ -10,8 +10,6 @@ const MilestoneList = ({ milestones }: Props) => {
     sortedMilestones = sortedMilestones.sort((a, b) => {
         return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
     });
-    // sortedMilestones.reverse();
-    console.log(sortedMilestones);
 
     return sortedMilestones.map((milestone: Milestone) => {
         return (
