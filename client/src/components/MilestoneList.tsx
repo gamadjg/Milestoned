@@ -32,7 +32,7 @@ const MilestoneList = ({ milestones }: Props) => {
                     <div className="border-l-2 border-[#BFDBFE] pl-4 mt-4 ml-5 w-5/6">
                         <div className="bg-white rounded-lg pb-1">
                             <div className="flex justify-between">
-                                <div className="font-semiold text-md p-4">
+                                <div className="font-semibold text-base p-4">
                                     {milestone.title}
                                 </div>
                                 {milestone.owner ? (
@@ -46,9 +46,19 @@ const MilestoneList = ({ milestones }: Props) => {
                                     <></>
                                 )}
                             </div>
-                            <div>
-                                <div className="p-4">
+                            <div className="px-4">
+                                <div className="font-normal text-sm pb-2">
                                     {milestone.description}
+                                </div>
+                                <div className="flex pb-2">
+                                    {milestone.tags?.map((tag) => (
+                                        <div
+                                            key={tag}
+                                            className="bg-gray-400 text-gray-700 rounded-lg text-base px-3 py-1 mr-2 mb-2"
+                                        >
+                                            {tag}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

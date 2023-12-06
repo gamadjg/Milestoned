@@ -63,7 +63,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/2 h-full overflow-y-scroll">
+                <div className="w-full md:w-1/2 h-full overflow-y-scroll pb-10">
                     <MilestoneList milestones={milestones} />
                 </div>
             </div>
