@@ -6,9 +6,11 @@ import { updateMilestones } from "../store/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-
+// import { useState } from "react";
+import Delete from "../components/Delete";
 const Edit = () => {
     const params = useParams();
+    // const [toggleDelete, setToggleDelete] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user.user);
@@ -47,7 +49,6 @@ const Edit = () => {
                     return item._id != params._id;
                 }
             );
-            console.log("updated milestones", updatedMilestones);
             sessionStorage.setItem(
                 "user",
                 JSON.stringify({
@@ -55,7 +56,6 @@ const Edit = () => {
                     milestones: updatedMilestones,
                 })
             );
-
             dispatch(updateMilestones(updatedMilestones));
             navigate("/dashboard");
         } catch (error) {
@@ -68,11 +68,16 @@ const Edit = () => {
             <div className="bg-white rounded-lg md:max-w-[900px] w-11/12">
                 <div className="mx-2 md:mx-5">
                     <div className="p-2 md:p-4">
+                        <div className="flex justify-between items-center mb-2 py-3">
+                            <div className="font-semibold text-xl">
+                                Edit Milestone
+                            </div>
+                            <Delete handleDelete={handleDelete} />
+                        </div>
                         <MilestoneForm
                             milestone={user!.milestones[mKey]}
                             handleMilestone={handleMilestone}
                             newMilestone={false}
-                            handleDelete={handleDelete}
                         />
                     </div>
                 </div>

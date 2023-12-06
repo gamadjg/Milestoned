@@ -14,8 +14,8 @@ const MilestoneForm = ({
     milestone,
     handleMilestone,
     newMilestone,
-    handleDelete,
-}: Props) => {
+}: // handleDelete,
+Props) => {
     const user = useSelector((state: RootState) => state.user?.user);
     const [title, setTitle] = useState(milestone?.title || "");
     const [description, setDescription] = useState(
@@ -140,9 +140,6 @@ const MilestoneForm = ({
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="font-semibold text-xl mb-4">
-                {newMilestone ? "Add New Milestone" : "Edit Milestone"}
-            </div>
             <div className="mb-4">
                 <input
                     type="text"
@@ -206,7 +203,7 @@ const MilestoneForm = ({
                 className={
                     newMilestone
                         ? "flex justify-end"
-                        : "flex justify-between" + " items-end mb-4 w-full"
+                        : "flex justify-between" + " items-center mb-4 w-full"
                 }
             >
                 {newMilestone ? (
@@ -219,7 +216,7 @@ const MilestoneForm = ({
                     </button>
                 ) : (
                     <>
-                        <button
+                        {/* <button
                             type="button"
                             onClick={handleDelete}
                             className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
@@ -232,23 +229,21 @@ const MilestoneForm = ({
                                 src="https://img.icons8.com/material-outlined/24/trash--v1.png"
                                 alt="trash--v1"
                             />
+                        </button> */}
+                        <button
+                            type="button"
+                            className="bg-gray-500 rounded-lg text-white px-8 py-1 mr-4 h-full"
+                            onClick={backspace}
+                        >
+                            Cancel
                         </button>
-                        <div className="flex justify-end">
-                            <button
-                                type="button"
-                                className="bg-gray-500 rounded-lg text-white px-8 py-2 mr-4"
-                                onClick={backspace}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
-                            >
-                                <span>Edit</span>
-                                <span className="text-xl">&#10003;</span>
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
+                        >
+                            <span>Edit</span>
+                            <span className="text-xl">&#10003;</span>
+                        </button>
                     </>
                 )}
             </div>
