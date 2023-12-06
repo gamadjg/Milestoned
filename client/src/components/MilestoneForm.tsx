@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@/store/rootReducer";
@@ -35,7 +35,20 @@ const MilestoneForm = ({
                   year: "numeric",
               })
     );
-
+    const maxDescriptionLength = 500;
+    const descriptionLength = useMemo(() => {
+        return description.length;
+    }, [description]);
+    const descriptionHandler = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        if (
+            e.currentTarget.value.length < descriptionLength ||
+            descriptionLength < maxDescriptionLength
+        ) {
+            setDescription(e.currentTarget.value);
+        } else {
+            console.log("max description size reached.");
+        }
+    };
     // const [started, setStarted] = useState(
     // const [tags, setTags] = useState();
     // const [errors, setErrors] = useState([]);
@@ -109,7 +122,7 @@ const MilestoneForm = ({
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="font-bold text-xl mb-4">
+            <div className="font-semibold text-xl mb-4">
                 {newMilestone ? "Add New Milestone" : "Edit Milestone"}
             </div>
             <div className="mb-4">
@@ -127,9 +140,14 @@ const MilestoneForm = ({
                     name="description"
                     placeholder="Enter description"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={descriptionHandler}
                     className="w-full h-40 border border-gray-300 rounded-md px-3 py-2 mt-1 resize-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 ></textarea>
+                <div className="flex mb-4 justify-end mr-2">
+                    <div className="text-xs leading-4 font-normal text-gray-400">
+                        {descriptionLength}/{maxDescriptionLength}
+                    </div>
+                </div>
             </div>
             <div className="mb-4">
                 <select
