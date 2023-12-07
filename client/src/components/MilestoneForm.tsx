@@ -50,7 +50,6 @@ Props) => {
             console.log("max description size reached.");
         }
     };
-    // const [started, setStarted] = useState(
     // const [errors, setErrors] = useState([]);
 
     const handleTags = (e: React.FormEvent<HTMLInputElement>) => {
@@ -216,20 +215,6 @@ Props) => {
                     </button>
                 ) : (
                     <>
-                        {/* <button
-                            type="button"
-                            onClick={handleDelete}
-                            className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
-                        >
-                            <span>Delete</span>
-                            <img
-                                className="text-white invert"
-                                width="24"
-                                height="24"
-                                src="https://img.icons8.com/material-outlined/24/trash--v1.png"
-                                alt="trash--v1"
-                            />
-                        </button> */}
                         <button
                             type="button"
                             className="bg-gray-500 rounded-lg text-white px-8 py-1 mr-4 h-full"
@@ -252,48 +237,3 @@ Props) => {
 };
 
 export default MilestoneForm;
-
-// {newMilestone ? (
-//     <></>
-// ) : (
-//     <button
-//         type="button"
-//         onClick={handleDelete}
-//         className="bg-red-600 rounded-lg text-white px-8 py-2 flex justify-between gap-1"
-//     >
-//         <span>Delete</span>
-//         <img
-//             className="text-white invert"
-//             width="24"
-//             height="24"
-//             src="https://img.icons8.com/material-outlined/24/trash--v1.png"
-//             alt="trash--v1"
-//         />
-//     </button>
-// )}
-// {newMilestone ? (
-//     <button
-//         type="submit"
-//         className="bg-blue-500 rounded-lg text-white px-8 py-1 flex items-center gap-2"
-//     >
-//         <span>Add</span>
-//         <span className="text-xl">+</span>
-//     </button>
-// ) : (
-//     <div className="flex justify-end">
-//         <button
-//             type="button"
-//             className="bg-gray-500 rounded-lg text-white px-8 py-2 mr-4"
-//             onClick={backspace}
-//         >
-//             Cancel
-//         </button>
-//         <button
-//             type="submit"
-//             className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
-//         >
-//             <span>Edit</span>
-//             <span className="text-xl">&#10003;</span>
-//         </button>
-//     </div>
-// )}

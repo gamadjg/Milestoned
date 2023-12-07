@@ -6,11 +6,10 @@ import { updateMilestones } from "../store/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-// import { useState } from "react";
 import Delete from "../components/Delete";
+
 const Edit = () => {
     const params = useParams();
-    // const [toggleDelete, setToggleDelete] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user.user);

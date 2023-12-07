@@ -10,14 +10,8 @@ const milestoneSchema = new Schema(
             type: String,
             required: false,
         },
-        // started: {
-        //     type: Date,
-        //     // default: () => Date.now(),
-        //     required: true,
-        // },
         deadline: {
             type: Date,
-            // default: () => Date.now() + 90 * 24 * 60 * 60 * 1000, // defaults to 90 days from present
             required: true,
         },
         status: {

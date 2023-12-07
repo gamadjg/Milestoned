@@ -47,7 +47,7 @@ export const getOneMilestone = asyncHandler(async (req, res) => {
 // @route POST /milestones
 // @access Public
 export const createNewMilestone = asyncHandler(async (req, res) => {
-    const { title, description, started, deadline, status, owner } = req.body;
+    const { title, description, deadline, status, owner, tags } = req.body;
 
     try {
         let milestone = await Milestone.create({
@@ -56,6 +56,7 @@ export const createNewMilestone = asyncHandler(async (req, res) => {
             deadline,
             status,
             owner: owner ? owner : null,
+            tags: tags ? tags : [],
         });
         // Append the created milestone to the user's milestones array
         if (owner) {
@@ -81,16 +82,9 @@ export const createNewMilestone = asyncHandler(async (req, res) => {
 // @access Private
 export const updateMilestone = asyncHandler(async (req, res) => {
     const id = req.params.milestoneNum;
-    const {
-        title,
-        description,
-        started,
-        deadline,
-        status,
-        owner,
-        // tags,
-    } = req.body;
-
+    const { title, description, started, deadline, status, owner, tags } =
+        req.body;
+    console.log("tags to update: ", tags);
     const milestone = await Milestone.findOne({ _id: id });
     if (!milestone) {
         return res.status(400).json({ message: `Milestone not found` });
@@ -101,7 +95,7 @@ export const updateMilestone = asyncHandler(async (req, res) => {
     milestone.started = started;
     milestone.deadline = deadline;
     milestone.status = status;
-    // milestone.tags = tags;
+    milestone.tags = tags;
     milestone.owner = owner;
     await milestone.save();
 
