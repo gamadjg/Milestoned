@@ -23,7 +23,8 @@ export const getPublicMilestones = asyncHandler(async (req, res) => {
     let milestones = await Milestone.find({ owner: { $eq: null } }).lean();
 
     if (!milestones?.length) {
-        res.status(400).json({ message: "No milestones found" });
+        // res.status(400).json({ message: "No milestones found" });
+        res.json([]);
     }
 
     res.json(milestones);
