@@ -16,24 +16,27 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (user) {
+            console.log("setting user milestones");
             setMilestones(user.milestones);
         } else {
+            console.log("setting guest milestones");
             setMilestones(guestMilestones.milestones);
         }
     }, [guestMilestones.milestones, user]);
 
     const handleMilestone = (milestone: Milestone) => {
-        console.log("handle milestone", milestone);
         const updatedMilestones = [...milestones, milestone];
         const sessionUser = sessionStorage.getItem("user");
-        sessionStorage.setItem(
-            "user",
-            JSON.stringify({
-                ...JSON.parse(sessionUser!),
-                milestones: updatedMilestones,
-            })
-        );
-        dispatch(updateMilestones(updatedMilestones));
+        if (sessionUser) {
+            sessionStorage.setItem(
+                "user",
+                JSON.stringify({
+                    ...JSON.parse(sessionUser!),
+                    milestones: updatedMilestones,
+                })
+            );
+            dispatch(updateMilestones(updatedMilestones));
+        }
         setMilestones(updatedMilestones);
         setTags(user?.tags || []);
     };

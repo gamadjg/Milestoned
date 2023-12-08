@@ -18,7 +18,6 @@ const Edit = () => {
     });
 
     const handleMilestone = (milestone: Milestone) => {
-        console.log("handle milestone", milestone);
         const sessionUser = sessionStorage.getItem("user");
         const sessionMilestones = JSON.parse(sessionUser!).milestones;
         const updatedMilestone = { ...sessionMilestones[mKey], ...milestone };
@@ -35,12 +34,10 @@ const Edit = () => {
     };
 
     const handleDelete = async () => {
-        console.log("delete initiated");
         try {
-            const res = await axios.delete(
+            await axios.delete(
                 `http://localhost:8000/api/milestones/${params._id}`
             );
-            console.log("delete response", res);
             const sessionUser = sessionStorage.getItem("user");
             const parsedUser = JSON.parse(sessionUser!);
             const updatedMilestones = parsedUser.milestones.filter(

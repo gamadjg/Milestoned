@@ -16,7 +16,6 @@ export default function Login() {
     const dispatch = useDispatch();
 
     const handleLogin = async ({ email, password }: User) => {
-        console.log("login initiated");
         try {
             const res = await axios.post(
                 "http://localhost:8000/api/users/login",
@@ -25,7 +24,6 @@ export default function Login() {
                     password,
                 }
             );
-            console.log("login successful", res.data);
             dispatch(loginSuccess(res.data.user));
             sessionStorage.setItem("session_token", res.data.token);
             sessionStorage.setItem("user", JSON.stringify(res.data.user));

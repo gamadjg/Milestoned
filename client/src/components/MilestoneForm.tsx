@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { RootState } from "@/store/rootReducer";
+import { RootState } from "../store/rootReducer";
 
 type Props = {
     milestone?: Milestone;
@@ -10,12 +10,7 @@ type Props = {
     handleDelete?: () => void;
 };
 
-const MilestoneForm = ({
-    milestone,
-    handleMilestone,
-    newMilestone,
-}: // handleDelete,
-Props) => {
+const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     const user = useSelector((state: RootState) => state.user?.user);
     const [title, setTitle] = useState(milestone?.title || "");
     const [description, setDescription] = useState(
@@ -58,6 +53,7 @@ Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         // if the form is used to create a new milestone, send a post request
         if (newMilestone) {
             try {
@@ -72,7 +68,6 @@ Props) => {
                         tags: tags,
                     }
                 );
-                console.log("New milestone: ", res);
                 handleMilestone(res.data.milestone);
                 setTitle("");
                 setDescription("");
@@ -85,7 +80,7 @@ Props) => {
         } else {
             // else the form is used to edit an existing milestone, send a patch request, then update the milestone in the redux store and session storage
             try {
-                const res = await axios.patch(
+                await axios.patch(
                     `http://localhost:8000/api/milestones/${milestone!._id}`,
                     {
                         title,
@@ -96,7 +91,6 @@ Props) => {
                         tags,
                     }
                 );
-                console.log("Edited milestone: ", res);
                 handleMilestone({
                     title,
                     description,
