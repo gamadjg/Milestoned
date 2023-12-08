@@ -1,17 +1,27 @@
 import MilestoneForm from "../components/MilestoneForm";
 import MilestoneList from "../components/MilestoneList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { updateMilestones } from "../store/reducers/userSlice";
+import { PopulateGuestMilestones } from "../hooks/PopulateGuestMilestones";
 
 const Dashboard = () => {
+    PopulateGuestMilestones();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user?.user);
-    const [milestones, setMilestones] = useState<Milestone[]>(
-        user?.milestones || []
-    );
+    const guestMilestones = useSelector((state: RootState) => state.milestones);
+    const [milestones, setMilestones] = useState<Milestone[]>([]);
     const [tags, setTags] = useState<string[]>(user?.tags || []);
+
+    useEffect(() => {
+        if (user) {
+            setMilestones(user.milestones);
+        } else {
+            setMilestones(guestMilestones.milestones);
+        }
+    }, [guestMilestones.milestones, user]);
+
     const handleMilestone = (milestone: Milestone) => {
         console.log("handle milestone", milestone);
         const updatedMilestones = [...milestones, milestone];
@@ -62,7 +72,6 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className="w-full md:w-1/2 h-full overflow-y-scroll pb-10">
                     <MilestoneList milestones={milestones} />
                 </div>

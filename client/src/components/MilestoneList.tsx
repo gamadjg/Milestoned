@@ -5,7 +5,6 @@ type Props = {
 };
 
 const MilestoneList = ({ milestones }: Props) => {
-    console.log("milestones", milestones);
     let sortedMilestones: Milestone[] = [...milestones];
     sortedMilestones = sortedMilestones.sort((a, b) => {
         return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
@@ -28,7 +27,6 @@ const MilestoneList = ({ milestones }: Props) => {
                     </div>
                 </div>
                 <div className="flex items-center justify-start w-full">
-                    {/* <div className="w-10 h-full"></div> */}
                     <div className="border-l-2 border-[#BFDBFE] pl-4 mt-4 ml-5 w-5/6">
                         <div className="bg-white rounded-lg pb-1">
                             <div className="flex justify-between">
