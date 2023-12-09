@@ -38,15 +38,13 @@ export default function Register() {
             navigate("/dashboard");
         } catch (error) {
             console.error("registration error:", error);
-            // setErrors(error);
         }
     };
 
     return (
-        <main className="flex w-full h-full flex-col items-center justify-center gap-9 px-3 md:px-52">
-            {/* // <main className="w-full h-full grid items-center justify-center gap-9 px-3 md:px-52"> */}
+        <main className="flex flex-col justify-center items-center px-3 md:px-52 mt-20">
             <p className="text-2xl">Register</p>
-            <div className="w-5/6 md:w-3/6">
+            <div className="w-5/6 md:max-w-md">
                 <LoginRegForm register handleUser={handleRegister} />
             </div>
         </main>

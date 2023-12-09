@@ -4,19 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/reducers/userSlice";
 
-type User = {
+type Data = {
     email: string;
     password: string;
-    firstName?: string;
-    lastName?: string;
 };
 
 export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleLogin = async ({ email, password }: User) => {
+    const handleLogin = async ({ email, password }: Data) => {
         try {
+            // console.log(email, password);
             const res = await axios.post(
                 "http://localhost:8000/api/users/login",
                 {
@@ -34,9 +33,9 @@ export default function Login() {
     };
 
     return (
-        <main className="flex w-full h-full flex-col items-center justify-center gap-9 px-3 md:px-52">
+        <main className="flex flex-col justify-center items-center px-3 md:px-52 mt-20">
             <p className="text-2xl">Login</p>
-            <div className="w-5/6 md:w-3/6">
+            <div className="w-5/6 md:max-w-md">
                 <LoginRegForm login handleUser={handleLogin} />
             </div>
         </main>
