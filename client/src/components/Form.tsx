@@ -6,7 +6,7 @@ import {
     num_validation,
     desc_validation,
     email_validation,
-} from "../lib/validations";
+} from "../lib/userValidations";
 
 export const Form = () => {
     const methods = useForm();

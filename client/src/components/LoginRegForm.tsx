@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "./Input";
 import { useForm, FormProvider } from "react-hook-form";
@@ -7,7 +6,8 @@ import {
     lastName_validation,
     password_validation,
     email_validation,
-} from "../lib/validations";
+} from "../lib/userValidations";
+import { Button } from "./Button";
 
 type props = {
     login?: boolean;
@@ -58,12 +58,11 @@ export const LoginRegForm = ({ login, register, handleUser }: props) => {
                 )}
                 {register ? (
                     <>
-                        <button
-                            onClick={onSubmit}
+                        <Button
+                            text="REGISTER"
                             className="rounded-2xl bg-[#334155] text-white mt-10 px-16 py-2 text-center w-full"
-                        >
-                            REGISTER
-                        </button>
+                            onClick={onSubmit}
+                        />
                         <p className="my-4 text-center text-sm text-navy-200 md:text-base">
                             Already have an account?{" "}
                             <Link
@@ -76,12 +75,12 @@ export const LoginRegForm = ({ login, register, handleUser }: props) => {
                     </>
                 ) : (
                     <>
-                        <button
-                            onClick={onSubmit}
+                        <Button
+                            text="LOGIN"
                             className="rounded-2xl bg-[#334155] text-white mt-10 px-16 py-2 text-center w-full"
-                        >
-                            LOGIN
-                        </button>
+                            onClick={onSubmit}
+                        />
+
                         <p className="my-4 text-center text-sm text-navy-200 md:text-base">
                             Don't have an account?{" "}
                             <Link

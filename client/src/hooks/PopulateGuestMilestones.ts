@@ -10,7 +10,6 @@ export const PopulateGuestMilestones = async () => {
         (state: RootState) => state.milestones.milestones
     );
     if (milestones.length === 0) {
-        console.log("test");
         const res = await axios.get(
             "http://localhost:8000/api/milestones/public"
         );

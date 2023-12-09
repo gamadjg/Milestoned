@@ -13,6 +13,9 @@ type InputProps = {
     placeholder: string;
     validation?: any;
     multiline?: boolean;
+    status?: boolean;
+    options?: string[];
+    initialValue?: string;
 };
 
 const framer_error = {
@@ -42,11 +45,15 @@ export const Input = ({
     placeholder,
     validation,
     multiline,
+    status,
+    options,
+    initialValue,
 }: InputProps) => {
     const {
         register,
         formState: { errors },
     } = useFormContext();
+    // console.log("status: ", status);
     const inputError = findInputError(errors, name);
     const isInvalid = isFormInvalid(inputError);
 
@@ -71,18 +78,36 @@ export const Input = ({
             {multiline ? (
                 <textarea
                     id={id}
-                    type={type}
-                    className="p-5 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60 min-h-[10rem] max-h-[20rem] resize-y"
+                    typeof={type}
+                    // className="p-5 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60 min-h-[10rem] max-h-[20rem] resize-y"
+                    className="w-full h-40 border border-[#94A3B8] rounded-md px-2 py-2 mt-1 resize-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder={placeholder}
+                    value={initialValue}
                     {...register(`${name}`, validation)}
                 ></textarea>
+            ) : status ? (
+                <select
+                    id={id}
+                    name={name}
+                    defaultValue={initialValue}
+                    className="w-full border border-[#94A3B8] rounded-md px-2 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                    {options!.map((value) => {
+                        return (
+                            <option key={value} value={value}>
+                                {value}
+                            </option>
+                        );
+                    })}
+                </select>
             ) : (
                 <input
                     id={id}
                     type={type}
                     // className="p-5 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60"
-                    className="mb-5 block w-full rounded-md border border-navy-100 px-10 py-2 focus:border-slate-200 focus:outline-none"
+                    className="w-full border border-[#94A3B8] rounded-md px-2 py-2 focus:border-slate-200 focus:outline-none"
                     placeholder={placeholder}
+                    value={initialValue}
                     {...register(name, validation)}
                 />
             )}
