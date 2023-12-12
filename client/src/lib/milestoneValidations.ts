@@ -49,11 +49,11 @@ export const status_validation = {
     },
 };
 
-export const date_validation = {
-    name: "date",
-    label: "date",
-    type: "date",
-    id: "date",
+export const deadline_validation = {
+    name: "deadline",
+    label: "deadline",
+    type: "text",
+    id: "deadline",
     date: true,
     placeholder: "Date",
     validation: {

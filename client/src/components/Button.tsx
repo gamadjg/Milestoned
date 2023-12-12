@@ -3,7 +3,8 @@ type Props = {
     className: string;
     extraText?: string;
     extraClassName?: string;
-    onClick: () => void;
+    type?: "button" | "submit" | "reset";
+    onClick?: () => void;
 };
 
 export const Button = ({
@@ -11,10 +12,11 @@ export const Button = ({
     className,
     extraText,
     extraClassName,
+    type,
     onClick,
 }: Props) => {
     return (
-        <button className={className} onClick={onClick}>
+        <button type={type} className={className} onClick={onClick}>
             {text}{" "}
             {extraText && <span className={extraClassName}>{extraText}</span>}
         </button>

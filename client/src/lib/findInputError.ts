@@ -1,4 +1,6 @@
-export function findInputError(errors: any, name: string) {
+import { FieldErrors } from "react-hook-form";
+
+export function findInputError(errors: FieldErrors, name: string) {
     const filtered = Object.keys(errors)
         .filter((key) => key.includes(name))
         .reduce((cur, key) => {

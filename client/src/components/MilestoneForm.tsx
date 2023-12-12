@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+// import React, { useMemo } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "../store/rootReducer";
@@ -8,7 +8,7 @@ import {
     title_validation,
     description_validation,
     status_validation,
-    date_validation,
+    deadline_validation,
     tags_validation,
 } from "../lib/milestoneValidations";
 import { FormProvider } from "react-hook-form";
@@ -24,44 +24,9 @@ type Props = {
 const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     const methods = useForm();
     const user = useSelector((state: RootState) => state.user?.user);
-    const [title, setTitle] = useState(milestone?.title || "");
-    const [description, setDescription] = useState(
-        milestone?.description || ""
-    );
-    const [status, setStatus] = useState(milestone?.status || "");
-    const [deadline, setDeadline] = useState(
-        milestone
-            ? new Date(milestone.deadline).toLocaleDateString(undefined, {
-                  month: "numeric",
-                  day: "numeric",
-                  year: "numeric",
-              })
-            : new Date().toLocaleDateString(undefined, {
-                  month: "numeric",
-                  day: "numeric",
-                  year: "numeric",
-              })
-    );
-    const [tags, setTags] = useState(milestone?.tags || []);
-    const maxDescriptionLength = 500;
-    const descriptionLength = useMemo(() => {
-        return description.length;
-    }, [description]);
-    const descriptionHandler = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        if (
-            e.currentTarget.value.length < descriptionLength ||
-            descriptionLength < maxDescriptionLength
-        ) {
-            setDescription(e.currentTarget.value);
-        } else {
-            console.log("max description size reached.");
-        }
-    };
-    // const [errors, setErrors] = useState([]);
-
-    const handleTags = (e: React.FormEvent<HTMLInputElement>) => {
-        setTags(e.currentTarget.value.split(",").map((tag) => tag.trim()));
-    };
+    // const handleTags = (e: React.FormEvent<HTMLInputElement>) => {
+    //     // setTags(e.currentTarget.value.split(",").map((tag) => tag.trim()));
+    // };
 
     const onSubmit = methods.handleSubmit(async (data) => {
         console.log(data);
@@ -80,11 +45,6 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                     }
                 );
                 handleMilestone(res.data.milestone);
-                setTitle("");
-                setDescription("");
-                setStatus("");
-                setDeadline("");
-                setTags([]);
             } catch (error) {
                 console.log("Create error: ", error);
             }
@@ -123,72 +83,29 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={onSubmit}>
-                {/* <div className="mb-4"> */}
                 <Input
                     {...title_validation}
                     initialValue={milestone?.title || ""}
                 />
-                {/* <input
-                        type="text"
-                        name="title"
-                        placeholder="Enter milestone title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    /> */}
-                {/* </div> */}
-                {/* <div className="mb-4"> */}
                 <Input
                     {...description_validation}
                     initialValue={milestone?.description || ""}
+                    // descriptionHandler={descriptionHandler}
                 />
-                {/* <textarea
-                    name="description"
-                    placeholder="Enter description"
-                    value={description}
-                    onChange={descriptionHandler}
-                    className="w-full h-40 border border-gray-300 rounded-md px-3 py-2 mt-1 resize-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                ></textarea> */}
-                <div className="flex justify-end mr-2">
-                    <div className="text-xs leading-4 font-normal text-gray-400">
-                        {descriptionLength}/{maxDescriptionLength}
-                    </div>
-                </div>
-                {/* </div> */}
-                {/* <div className="mb-4"> */}
                 <Input
                     {...status_validation}
                     initialValue={milestone?.status || ""}
                 />
-                {/* <select
-                        name="status"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    >
-                        <option value="" disabled>
-                            Select status
-                        </option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Not Started">Not Started</option>
-                    </select> */}
-                {/* </div> */}
-                {/* <div className="mb-4"> */}
                 <Input
-                    {...date_validation}
-                    initialValue={milestone?.deadline || ""}
+                    {...deadline_validation}
+                    initialValue={
+                        milestone
+                            ? new Date(
+                                  milestone ? milestone.deadline : ""
+                              ).toLocaleDateString()
+                            : new Date().toLocaleDateString()
+                    }
                 />
-                {/* <input
-                        type="text"
-                        name="dateCompleted"
-                        placeholder="Date completed (mm/dd/yyyy)"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div> */}
-                {/* <div className="mb-4"> */}
                 <Input
                     {...tags_validation}
                     // initialValue={milestone?.tags || ""}
