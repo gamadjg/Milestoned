@@ -1,5 +1,6 @@
 // import React, { useMemo } from "react";
 import axios from "axios";
+// import { useState } from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "../store/rootReducer";
 import { Input } from "./Input";
@@ -24,15 +25,21 @@ type Props = {
 const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     const methods = useForm();
     const user = useSelector((state: RootState) => state.user?.user);
+    // const [tags, setTags] = useState(milestone?.tags?.join(", ") || "");
     // const handleTags = (e: React.FormEvent<HTMLInputElement>) => {
     //     // setTags(e.currentTarget.value.split(",").map((tag) => tag.trim()));
+    //     setTags(e.currentTarget.value);
     // };
 
     const onSubmit = methods.handleSubmit(async (data) => {
         console.log(data);
+        const tags = data.tags.legnth > 0 ? data.tags.split(",") : [];
+
         // if the form is used to create a new milestone, send a post request
         if (newMilestone) {
             try {
+                console.log(data.tags);
+
                 const res = await axios.post(
                     "http://localhost:8000/api/milestones/create",
                     {
@@ -41,7 +48,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                         deadline: data.deadline,
                         status: data.status,
                         owner: user?.id,
-                        tags: data.tags,
+                        tags,
                     }
                 );
                 handleMilestone(res.data.milestone);
@@ -51,6 +58,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
         } else {
             // else the form is used to edit an existing milestone, send a patch request, then update the milestone in the redux store and session storage
             try {
+                console.log(data.tags);
                 await axios.patch(
                     `http://localhost:8000/api/milestones/${milestone!._id}`,
                     {
@@ -59,7 +67,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                         deadline: data.deadline,
                         status: data.status,
                         owner: milestone!.owner,
-                        tags: data.tags,
+                        tags,
                     }
                 );
                 handleMilestone({
@@ -68,7 +76,7 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                     deadline: data.deadline,
                     status: data.status,
                     owner: milestone!.owner,
-                    tags: data.tags,
+                    tags,
                 });
             } catch (error) {
                 console.log("Edit error: ", error);
@@ -90,7 +98,6 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                 <Input
                     {...description_validation}
                     initialValue={milestone?.description || ""}
-                    // descriptionHandler={descriptionHandler}
                 />
                 <Input
                     {...status_validation}
@@ -108,23 +115,14 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                 />
                 <Input
                     {...tags_validation}
-                    // initialValue={milestone?.tags || ""}
+                    initialValue={milestone?.tags?.join(", ") || ""}
                 />
-                {/* <input
-                        type="text"
-                        name="tags"
-                        placeholder="Tags (separated by commas)"
-                        value={tags.map((tag) => tag.trim()).join(", ")}
-                        onChange={handleTags}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                </div> */}
                 <div
                     className={
-                        newMilestone
+                        (newMilestone
                             ? "flex justify-end"
-                            : "flex justify-between" +
-                              " items-center mb-4 w-full"
+                            : "flex justify-between") +
+                        " items-center mb-4 w-full mt-5"
                     }
                 >
                     {newMilestone ? (
@@ -133,21 +131,21 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
                             extraText="+"
                             className="bg-blue-500 rounded-lg text-white px-8 py-1 flex items-center gap-2"
                             extraClassName="text-xl"
-                            onClick={onSubmit}
                         />
                     ) : (
                         <>
                             <Button
                                 text="Cancel"
+                                type="button"
                                 className="bg-gray-500 rounded-lg text-white px-8 py-1 mr-4 h-full"
                                 onClick={backspace}
                             />
                             <Button
                                 text="Edit"
+                                type="submit"
                                 extraText="&#10003;"
                                 className="bg-[#059669] rounded-lg text-white px-8 py-1 flex items-center gap-2"
                                 extraClassName="text-xl"
-                                onClick={onSubmit}
                             />
                         </>
                     )}

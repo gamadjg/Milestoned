@@ -26,8 +26,7 @@ type InputProps = {
     status?: boolean;
     date?: boolean;
     options?: string[];
-    initialValue?: string;
-    // descriptionHandler?: (descLength: number) => void;
+    initialValue?: string | string[];
 };
 
 const framer_error = {
@@ -49,21 +48,6 @@ const InputError = ({ message }: messageProps) => {
     );
 };
 
-// const descriptionLength = useMemo(() => {});
-
-// const descriptionHandler = (e: any) => {
-//     console.log("description update: ", e.currentTarget.value);
-//     // descriptionLength
-//     // if (
-//     //     e.currentTarget.value.length < descriptionLength ||
-//     //     descriptionLength < maxDescriptionLength
-//     // ) {
-//     //     setDescription(e.currentTarget.value);
-//     // } else {
-//     //     console.log("max description size reached.");
-//     // }
-// };
-
 export const Input = ({
     // label,
     name,
@@ -76,8 +60,7 @@ export const Input = ({
     date,
     options,
     initialValue,
-}: // descriptionHandler,
-InputProps) => {
+}: InputProps) => {
     const {
         register,
         formState: { errors },
