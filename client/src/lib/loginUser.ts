@@ -7,7 +7,7 @@ type User = {
 
 export default async function loginUser(user: User) {
     console.log("login: ", user);
-    return axios.post("http://localhost:8000/api/users/login", {
+    return axios.post(`${import.meta.env.VITE_APP_API_HOST}/api/users/login`, {
         email: user.email,
         password: user.password,
     });

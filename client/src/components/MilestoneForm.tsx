@@ -32,16 +32,19 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     // };
 
     const onSubmit = methods.handleSubmit(async (data) => {
-        console.log(data);
-        const tags = data.tags.legnth > 0 ? data.tags.split(",") : [];
-
+        console.log(data.tags, data.tags.length);
+        let tags = [];
+        if (data.tags.length > 0) {
+            tags = data.tags.split(",");
+        }
+        console.log("tags: ", tags);
         // if the form is used to create a new milestone, send a post request
         if (newMilestone) {
             try {
-                console.log(data.tags);
-
                 const res = await axios.post(
-                    "http://localhost:8000/api/milestones/create",
+                    `${
+                        import.meta.env.VITE_APP_API_HOST
+                    }/api/milestones/create`,
                     {
                         title: data.title,
                         description: data.description,
@@ -60,7 +63,9 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
             try {
                 console.log(data.tags);
                 await axios.patch(
-                    `http://localhost:8000/api/milestones/${milestone!._id}`,
+                    `${import.meta.env.VITE_APP_API_HOST}/api/milestones/${
+                        milestone!._id
+                    }`,
                     {
                         title: data.title,
                         description: data.description,

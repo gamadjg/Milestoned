@@ -23,7 +23,7 @@ export default function Register() {
         console.log("registration initiated");
         try {
             const res = await axios.post(
-                "http://localhost:8000/api/users/register",
+                `${import.meta.env.VITE_APP_API_HOST}/api/users/register`,
                 {
                     firstName,
                     lastName,

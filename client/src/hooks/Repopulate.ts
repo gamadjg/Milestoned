@@ -8,6 +8,8 @@ export default async function Repopulate() {
     const sessionToken = localStorage.getItem("sessionToken");
     const token = sessionToken!.split(" ")[1];
     const userId = jwt.verify(token, "1234");
-    const res = await axios.get(`http://localhost:8000/api/users/${userId}`);
+    const res = await axios.get(
+        `${import.meta.env.VITE_APP_API_HOST}/api/users/${userId}`
+    );
     dispatch(res.data.user);
 }

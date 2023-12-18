@@ -11,7 +11,7 @@ export const PopulateGuestMilestones = async () => {
     );
     if (milestones.length === 0) {
         const res = await axios.get(
-            "http://localhost:8000/api/milestones/public"
+            `${import.meta.env.VITE_APP_API_HOST}/api/milestones/public`
         );
         dispatch(setMilestones(res.data));
     }

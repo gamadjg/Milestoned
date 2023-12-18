@@ -36,7 +36,9 @@ const Edit = () => {
     const handleDelete = async () => {
         try {
             await axios.delete(
-                `http://localhost:8000/api/milestones/${params._id}`
+                `${import.meta.env.VITE_APP_API_HOST}/api/milestones/${
+                    params._id
+                }`
             );
             const sessionUser = sessionStorage.getItem("user");
             const parsedUser = JSON.parse(sessionUser!);
