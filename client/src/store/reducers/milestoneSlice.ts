@@ -1,13 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import populateTags from "../../lib/populateTags";
 
 type initialStateTypes = {
     milestones: Milestone[];
+    tags: string[];
     loading: boolean;
     error: string | null;
 };
 
 const initialState: initialStateTypes = {
     milestones: [],
+    tags: [],
     loading: false,
     error: null,
 };
@@ -16,26 +19,12 @@ const milestoneSlice = createSlice({
     name: "milestones",
     initialState,
     reducers: {
-        setMilestones: (state, action: PayloadAction<Milestone[]>) => {
+        setGuest: (state, action: PayloadAction<Milestone[]>) => {
             state.milestones = action.payload;
+            state.tags = populateTags(action.payload);
         },
-        // addMilestone: (state, action: PayloadAction<Milestone>) => {
-        //     state.milestones.push(action.payload);
-        // },
-        // updateMilestone: (state, action: PayloadAction<Milestone>) => {
-        //     const index = state.milestones.findIndex(
-        //         (milestone) => milestone._id === action.payload._id
-        //     );
-        //     state.milestones[index] = action.payload;
-        // },
-        // deleteMilestone: (state, action: PayloadAction<string>) => {
-        //     const index = state.milestones.findIndex(
-        //         (milestone) => milestone._id === action.payload
-        //     );
-        //     state.milestones.splice(index, 1);
-        // },
     },
 });
 
-export const { setMilestones } = milestoneSlice.actions;
+export const { setGuest } = milestoneSlice.actions;
 export default milestoneSlice.reducer;

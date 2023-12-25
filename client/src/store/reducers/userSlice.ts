@@ -5,7 +5,7 @@ type User = {
     email: string;
     id: string;
     milestones: Milestone[];
-    tags?: string[];
+    tags: string[];
 };
 
 type UserState = {

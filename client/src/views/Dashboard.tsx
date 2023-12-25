@@ -1,32 +1,40 @@
 import MilestoneForm from "../components/MilestoneForm";
 import MilestoneList from "../components/MilestoneList";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { updateMilestones } from "../store/reducers/userSlice";
-import { PopulateGuestMilestones } from "../hooks/PopulateGuestMilestones";
+// import { PopulateGuestMilestones } from "../hooks/PopulateGuestMilestones";
+// import { addGuestMilestone } from "../store/reducers/milestoneSlice";
+// import { setGuest } from "./store/reducers/milestoneSlice";
+import { SetupGuest } from "../hooks/SetupGuest";
 
+import { setGuest } from "../store/reducers/milestoneSlice";
 const Dashboard = () => {
-    PopulateGuestMilestones();
+    SetupGuest();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user?.user);
     const guestMilestones = useSelector((state: RootState) => state.milestones);
     const [milestones, setMilestones] = useState<Milestone[]>([]);
-    const [tags, setTags] = useState<string[]>(user?.tags || []);
+    const [tags, setTags] = useState<string[]>([]);
 
     useEffect(() => {
         if (user) {
             console.log("setting user milestones");
             setMilestones(user.milestones);
+            setTags(user.tags!);
         } else {
-            console.log("setting guest milestones");
             setMilestones(guestMilestones.milestones);
+            setTags(guestMilestones.tags!);
         }
-    }, [guestMilestones.milestones, user]);
+    }, [user, guestMilestones]);
 
     const handleMilestone = (milestone: Milestone) => {
         const updatedMilestones = [...milestones, milestone];
+        const updatedTags = [...tags, milestone.tags];
         const sessionUser = sessionStorage.getItem("user");
+
         if (sessionUser) {
             sessionStorage.setItem(
                 "user",
@@ -36,9 +44,19 @@ const Dashboard = () => {
                 })
             );
             dispatch(updateMilestones(updatedMilestones));
+        } else {
+            // const sessionGuestMilestones =
+            //     sessionStorage.getItem("guestMilestones");
+
+            // const updatedMilestones = [...JSON.parse(sessionGuestMilestones!), milestone];
+            sessionStorage.setItem(
+                "guestMilestones",
+                JSON.stringify(updatedMilestones)
+            );
+            dispatch(setGuest(updatedMilestones));
         }
         setMilestones(updatedMilestones);
-        setTags(user?.tags || []);
+        setTags(updatedTags.flat());
     };
 
     return (

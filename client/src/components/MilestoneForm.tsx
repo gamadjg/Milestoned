@@ -32,7 +32,6 @@ const MilestoneForm = ({ milestone, handleMilestone, newMilestone }: Props) => {
     // };
 
     const onSubmit = methods.handleSubmit(async (data) => {
-        console.log(data.tags, data.tags.length);
         let tags = [];
         if (data.tags.length > 0) {
             tags = data.tags.split(",");

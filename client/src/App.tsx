@@ -6,23 +6,8 @@ import Register from "./views/Register";
 import Dashboard from "./views/Dashboard";
 import Edit from "./views/Edit";
 import "./assets/index.css";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "./store/rootReducer";
-import { loginSuccess } from "./store/reducers/userSlice";
 
 export default function App() {
-    const dispatch = useDispatch();
-    const sessionUser = sessionStorage.getItem("user")
-        ? sessionStorage.getItem("user")
-        : null;
-    const user = useSelector((state: RootState) => state.user?.user);
-    if (!user && sessionUser) {
-        // console.log("user in session, not in redux");
-        const loginUser = JSON.parse(sessionUser);
-        // console.log(loginUser);
-        dispatch(loginSuccess(loginUser));
-    }
-
     return (
         <div className="flex flex-col h-screen bg-gray-200">
             <Header />
