@@ -5,9 +5,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { updateMilestones } from "../store/reducers/userSlice";
-// import { PopulateGuestMilestones } from "../hooks/PopulateGuestMilestones";
-// import { addGuestMilestone } from "../store/reducers/milestoneSlice";
-// import { setGuest } from "./store/reducers/milestoneSlice";
 import { SetupGuest } from "../hooks/SetupGuest";
 
 import { setGuest } from "../store/reducers/milestoneSlice";
@@ -45,10 +42,6 @@ const Dashboard = () => {
             );
             dispatch(updateMilestones(updatedMilestones));
         } else {
-            // const sessionGuestMilestones =
-            //     sessionStorage.getItem("guestMilestones");
-
-            // const updatedMilestones = [...JSON.parse(sessionGuestMilestones!), milestone];
             sessionStorage.setItem(
                 "guestMilestones",
                 JSON.stringify(updatedMilestones)
@@ -83,7 +76,7 @@ const Dashboard = () => {
                                     {tags.map((tag) => (
                                         <div
                                             key={tag}
-                                            className="bg-gray-400 text-gray-700 rounded-lg text-base px-3 py-1 mr-2 mb-2"
+                                            className="bg-[#CCEEFF] text-gray-700 rounded-lg text-base px-3 py-1 mr-2 mb-2"
                                         >
                                             {tag}
                                         </div>
