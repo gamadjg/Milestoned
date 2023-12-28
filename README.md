@@ -1,6 +1,6 @@
 # Milestoned
 
-[Live link]()
+[Live link](https://milestoned.gama.dev/)
 
 ![Landing page](./design/Landing%20Page%20-%20desktop.png)
 
@@ -22,6 +22,8 @@
 (^ [Back to Top](#milestoned))
 
 Milestoned is a app that aims to provide users with a platform to create, manage, and track milestones in their personal or professional lives. By allowing users to visualize their progress over time, the app aims to help them stay motivated and focused on achieving their goals.
+
+The client has been deployed on Netlify, and backend api on Google App Serivces.
 
 ## Language, Frameworks, and Technologies
 
@@ -67,7 +69,7 @@ Milestoned is a app that aims to provide users with a platform to create, manage
 
 (^ [Back to Top](#milestoned))
 
-[Live link]()
+[Live link](https://milestoned.gama.dev/)
 
 1. Clone the project
 
